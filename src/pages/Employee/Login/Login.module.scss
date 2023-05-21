@@ -1,0 +1,16 @@
+.container {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.mainForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputItem {
+    width: 80%;
+    margin: 10px 0;
+}
