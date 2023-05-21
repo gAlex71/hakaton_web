@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Admin.module.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import ViewModal from '../../components/ViewModal/ViewModal';
+import CreateObject from './CreateObject/CreateObject';
 
 const objectsRooms = [
 	{ id: 1, name: 'Название ЖК1', houses: ['Дом 1', 'Дом 2', 'Дом 3', 'Дом 4', 'Дом 5'] },
@@ -10,6 +12,16 @@ const objectsRooms = [
 ];
 
 const Admin = () => {
+	const [isOpenModal, setOpenModal] = useState(false);
+
+	const openCreateModal = () => {
+		setOpenModal(true);
+	};
+
+	const closeCreateModal = () => {
+		setOpenModal(false);
+	}
+
 	return (
 		<div className={styles.container}>
 			<Link to="/">Назад</Link>
@@ -25,6 +37,16 @@ const Admin = () => {
 					);
 				})}
 			</div>
+
+			<button onClick={openCreateModal}>Добавить объект</button>
+
+			<ViewModal 
+				title="Добавление объекта"
+				isModal={isOpenModal} 
+				closeModal={closeCreateModal}
+			>
+				<CreateObject closeModal={closeCreateModal}/>
+			</ViewModal>
 		</div>
 	);
 };

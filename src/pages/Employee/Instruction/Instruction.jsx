@@ -1,18 +1,22 @@
 import React from 'react'
 import styles from './Instruction.module.scss';
 import instruction from '../../../assets/instruction.jpeg';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const Instruction = () => {
+const Instruction = ({closeModal}) => {
+  const navigate = useNavigate();
+
+  const handleStart = () => {
+      closeModal();
+      navigate('/employee/camera');
+  };
   return (
-    <div className={styles.container}>
-        Для обхода квартиры следуйте инструкции, указанной на картинке:
-
+    <div style={{display: 'flex', flexDirection: 'column'}}>
         <img src={instruction} alt=""/>
 
-        <Link to="/employee/camera">
+        <button onClick={handleStart}>
           Начать обход квартиры
-        </Link>
+        </button>
     </div>
   )
 }
