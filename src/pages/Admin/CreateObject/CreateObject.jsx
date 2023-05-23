@@ -15,16 +15,23 @@ const CreateObject = ({ closeModal }) => {
 	};
 
 	return (
-		<div style={{ display: 'flex', flexDirection: 'column' }}>
-			<CustomInput type="text" placeholder="Название" value={name} onChange={(e) => setName(e.target.value)} />
+		<div>
+			<div className={styles.container}>
+				<CustomInput type="text" placeholder="Название" value={name} onChange={(e) => setName(e.target.value)} />
 
-			<CustomInput type="text" placeholder="Координаты" value={coords} onChange={(e) => setCoords(e.target.value)} />
+				<CustomInput
+					type="text"
+					placeholder="Координаты"
+					value={coords}
+					onChange={(e) => setCoords(e.target.value)}
+				/>
 
-			<CustomInput type="text" placeholder="Адрес" value={adress} onChange={(e) => setAdress(e.target.value)} />
+				<CustomInput type="text" placeholder="Адрес" value={adress} onChange={(e) => setAdress(e.target.value)} />
 
-			<CustomInput type="date" placeholder="Дата" value={date} onChange={(e) => setDate(e.target.value)} />
+				<CustomInput type="text" placeholder="Срок сдачи" value={date} onChange={(e) => setDate(e.target.value)} />
 
-      <CustomButton name='Создать' handleClick={createNewObject}/>
+			</div>
+				<CustomButton name="Создать" handleClick={createNewObject} />
 		</div>
 	);
 };

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './Admin.module.scss';
+import { useNavigate } from 'react-router-dom';
 import ViewModal from '../../components/ViewModal/ViewModal';
 import CreateObject from './CreateObject/CreateObject';
 import CustomButton from '../../components/CustomButton/CustomButton';
@@ -12,6 +13,7 @@ const objectsRooms = [
 ];
 
 const Admin = () => {
+	const navigate = useNavigate();
 	const [isOpenModal, setOpenModal] = useState(false);
 
 	const openCreateModal = () => {
@@ -28,7 +30,7 @@ const Admin = () => {
 			<div>
 				{objectsRooms.map(({ id, name, houses }) => {
 					return (
-						<div key={id}>
+						<div key={id} onClick={() => navigate(`/admin/${id}`)}>
 							<div>{name}</div>
 						</div>
 					);
@@ -37,7 +39,7 @@ const Admin = () => {
 			
 			<CustomButton name="Добавить объект" handleClick={openCreateModal} />
 
-			<ViewModal title="Добавление объекта" isModal={isOpenModal} closeModal={closeCreateModal}>
+			<ViewModal title="Новый объект" isModal={isOpenModal} closeModal={closeCreateModal}>
 				<CreateObject closeModal={closeCreateModal} />
 			</ViewModal>
 		</div>

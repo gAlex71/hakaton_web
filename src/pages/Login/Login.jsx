@@ -3,6 +3,7 @@ import styles from './Login.module.scss';
 import store from '../../store/store';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
+import { loginAuth } from '../../api/api';
 
 const Login = () => {
 	const {setAuthUser} = store;
@@ -11,7 +12,17 @@ const Login = () => {
 	const [password, setPassword] = useState('');
 
 	const loginApi = () => {
-		// setAuthUser('employee');
+		setAuthUser('admin');
+		// loginAuth('', email, password).then((data) => {
+		// 	try {
+		// 		const {token, role} = data;
+
+		// 		setAuthUser(role);
+		// 		localStorage.setItem('token', token);
+		// 	} catch (error) {
+		// 		console.log(error);
+		// 	}
+		// })
 	};
 
 	return (
@@ -36,7 +47,7 @@ const Login = () => {
 				/>
 			</div>
 
-			<div style={{width:'80%'}}>
+			<div style={{width:'90%'}}>
 				<CustomButton name='Войти' handleClick={loginApi}/>
 			</div>
 		</div>
