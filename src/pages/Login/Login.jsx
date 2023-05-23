@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import styles from './Login.module.scss';
-import { useNavigate } from 'react-router-dom';
+import store from '../../store/store';
+import CustomInput from '../../components/CustomInput/CustomInput';
+import CustomButton from '../../components/CustomButton/CustomButton';
 
 const Login = () => {
-	const navigate = useNavigate();
+	const {setAuthUser} = store;
+
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
 	const loginApi = () => {
-		navigate('/employee');
+		// setAuthUser('employee');
 	};
 
 	return (
@@ -18,16 +21,14 @@ const Login = () => {
 			<div className={styles.border}/>
 
 			<div className={styles.input}>
-				<input
-					className={styles.inputItem}
+				<CustomInput 
 					type="email"
 					placeholder="email"
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
 				/>
 
-				<input
-					className={styles.inputItem}
+				<CustomInput 
 					type="password"
 					placeholder="пароль"
 					value={password}
@@ -36,9 +37,7 @@ const Login = () => {
 			</div>
 
 			<div style={{width:'80%'}}>
-				<button className={styles.btn} onClick={loginApi}>
-					Войти
-				</button>
+				<CustomButton name='Войти' handleClick={loginApi}/>
 			</div>
 		</div>
 	);

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styles from './Admin.module.scss';
-import { Link, useNavigate } from 'react-router-dom';
 import ViewModal from '../../components/ViewModal/ViewModal';
 import CreateObject from './CreateObject/CreateObject';
+import CustomButton from '../../components/CustomButton/CustomButton';
 
 const objectsRooms = [
 	{ id: 1, name: 'Название ЖК1', houses: ['Дом 1', 'Дом 2', 'Дом 3', 'Дом 4', 'Дом 5'] },
@@ -20,14 +20,11 @@ const Admin = () => {
 
 	const closeCreateModal = () => {
 		setOpenModal(false);
-	}
+	};
 
 	return (
 		<div className={styles.container}>
-			<Link to="/">Назад</Link>
-
 			Выберите ЖК для отслеживания прогресса:
-
 			<div>
 				{objectsRooms.map(({ id, name, houses }) => {
 					return (
@@ -37,15 +34,11 @@ const Admin = () => {
 					);
 				})}
 			</div>
+			
+			<CustomButton name="Добавить объект" handleClick={openCreateModal} />
 
-			<button onClick={openCreateModal}>Добавить объект</button>
-
-			<ViewModal 
-				title="Добавление объекта"
-				isModal={isOpenModal} 
-				closeModal={closeCreateModal}
-			>
-				<CreateObject closeModal={closeCreateModal}/>
+			<ViewModal title="Добавление объекта" isModal={isOpenModal} closeModal={closeCreateModal}>
+				<CreateObject closeModal={closeCreateModal} />
 			</ViewModal>
 		</div>
 	);

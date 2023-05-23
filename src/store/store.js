@@ -1,7 +1,7 @@
 import {makeAutoObservable} from "mobx";
 
 class store{
-    authUser = '';
+    authUser = 'admin';
 
     frames = [
         { id: 1, name: 'Корпус 1', isShow: false, sections: ['Секция 1', 'Секция 2', 'Секция 3', 'Секция 4', 'Секция 5'] },
