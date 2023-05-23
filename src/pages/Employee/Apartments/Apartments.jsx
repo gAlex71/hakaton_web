@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styles from './Apartments.module.scss';
-import ViewModal from '../../../components/ViewModal/ViewModal';
-import Instruction from '../Instruction/Instruction';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 
 const objects = [
 	{ floor: 1, apartaments: ['2', '1', '3', '2', '3'] },
@@ -16,19 +15,15 @@ const objects = [
 ];
 
 const Apartments = () => {
+	const navigate = useNavigate();
+	const {object, frame} = useParams();
 	const [floors, setFloors] = useState(objects.reverse());
-	const [isOpenModal, setOpenModal] = useState(false);
 
-	const openModalInstructions = () => {
-    setOpenModal(true);
-  };
-
-  const closeModalInstructions = () => {
-    setOpenModal(false);
-  }
+	const lastPath = `/employee/${object}`;
 
 	return (
 		<div className={styles.container}>
+			<Link to={lastPath}>Назад</Link>
 			<div className={styles.title}>Выберите квартиру для обхода</div>
 
 			<div className={styles.list}>
@@ -38,7 +33,11 @@ const Apartments = () => {
 							{floor}
 							{apartaments.map((apartament) => {
 								return (
-									<div className={styles.apartament} key={apartament} onClick={openModalInstructions}>
+									<div 
+										className={styles.apartament} 
+										key={apartament} 
+										onClick={() => navigate(`/employee/${object}/${frame}/${apartament}/camera`)}
+									>
 										{apartament}
 									</div>
 								);
@@ -47,15 +46,6 @@ const Apartments = () => {
 					);
 				})}
 			</div>
-
-			<ViewModal 
-        title="Следуйте инструкцям по обходу квартир" 
-        isModal={isOpenModal} 
-        closeModal={closeModalInstructions}
-      >
-				{/* <CreateObject closeModal={closeModalInstructions} /> */}
-        <Instruction closeModal={closeModalInstructions}/>
-			</ViewModal>
 		</div>
 	);
 };

@@ -1,72 +1,44 @@
-import React, { useEffect, useRef } from 'react';
+import React, {useState} from 'react';
 import styles from './CameraPage.module.scss';
-import Webcam from 'react-webcam';
+import ViewModal from '../../../components/ViewModal/ViewModal';
+import Instruction from '../Instruction/Instruction';
+import CustomButton from '../../../components/CustomButton/CustomButton';
+import { useParams, Link } from 'react-router-dom';
 
 const CameraPage = () => {
-	// const videoRef = useRef(null);
-	const webcamRef = useRef(null);
+	const {object, frame, apartament} = useParams();
+	const [isOpenModal, setOpenModal] = useState(true);
 
-	useEffect(() => {
-	  const constraints = { video: { facingMode: { exact: 'environment' } } };
-  
-	  navigator.mediaDevices.getUserMedia(constraints)
-		.then(stream => {
-		  webcamRef.current.video.srcObject = stream;
-		  webcamRef.current.video.play();
-		})
-		.catch(error => {
-		  console.error('Error accessing media devices.', error);
-		});
-	}, []);
+	const pathLast = `/employee/${object}/${frame}`
 
-//   const startStream = () => {
-	// const constraints = { video: { facingMode: { exact: 'environment' } } };
-	// navigator.getUserMedia({ video: true }).then((stream) => {
-	// 	videoRef.current.srcObject = stream;
-	// 	videoRef.current.play();
-	// })
-    // navigator.mediaDevices.getUserMedia(constraints)
-    //   .then(stream => {
-    //     videoRef.current.srcObject = stream;
-    //     videoRef.current.play();
-    //   })
-    //   .catch(error => {
-    //     console.error('Error accessing media devices.', error);
-    //   });
-//   };
+	const closeModalInstructions = () => {
+		setOpenModal(false);
+	};
 
-  return (
-    <div className={styles.container}>
-		{/* <button onClick={startStream}>Начать обход</button>
-      <video ref={videoRef}/> */}
-	  <Webcam ref={webcamRef} />
-    </div>
-  );
+	const sendVideo = () => {
+		console.log('ЖК', object);
+		console.log('Дом', frame);
+		console.log('Квартира', apartament);
+	};
 
-	// const startCamera = () => {
-	// 	navigator.mediaDevices
-	// 		.getUserMedia({ video: true })
-	// 		.then((stream) => {
-	// 			const video = document.querySelector('video');
-	// 			video.srcObject = stream;
-	// 			video.onloadedmetadata = () => {
-	// 				video.play();
-	// 			};
-	// 		})
-	// 		.catch((err) => {
-	// 			console.log(`Error: ${err}`);
-	// 		});
-	// };
+	return (
+		<div className={styles.container}>
+			<Link to={pathLast}>Вернуться к списку квартир</Link>
+			<div>Загрузите видео обхода квартиры</div>
 
-	// return (
-	// 	<div className={styles.container}>
-	// 		Камера
-	// 		<div>
-	// 			<button onClick={startCamera}>Start Camera</button>
-	// 			<video></video>
-	// 		</div>
-	// 	</div>
-	// );
+			<CustomButton name="Отправить видео" handleClick={sendVideo} />
+
+			<Link>Перейти к следующей квартире</Link>
+
+			<ViewModal
+				title="Следуйте инструкцям по обходу квартир"
+				isModal={isOpenModal}
+				closeModal={closeModalInstructions}
+			>
+				<Instruction closeModal={closeModalInstructions} />
+			</ViewModal>
+		</div>
+	);
 };
 
 export default CameraPage;

@@ -17,21 +17,15 @@ const CreateObject = ({ closeModal }) => {
 	return (
 		<div>
 			<div className={styles.container}>
-				<CustomInput type="text" placeholder="Название" value={name} onChange={(e) => setName(e.target.value)} />
+				<CustomInput type="text" placeholder="Название" value={name} onChange={(e) => setName(e)} />
 
-				<CustomInput
-					type="text"
-					placeholder="Координаты"
-					value={coords}
-					onChange={(e) => setCoords(e.target.value)}
-				/>
+				<CustomInput type="text" placeholder="Координаты" value={coords} onChange={(e) => setCoords(e)} />
 
-				<CustomInput type="text" placeholder="Адрес" value={adress} onChange={(e) => setAdress(e.target.value)} />
+				<CustomInput type="text" placeholder="Адрес" value={adress} onChange={(e) => setAdress(e)} />
 
-				<CustomInput type="text" placeholder="Срок сдачи" value={date} onChange={(e) => setDate(e.target.value)} />
-
+				<CustomInput type="text" placeholder="Срок сдачи" value={date} onChange={(e) => setDate(e)} />
 			</div>
-				<CustomButton name="Создать" handleClick={createNewObject} />
+			<CustomButton name="Создать" handleClick={createNewObject} />
 		</div>
 	);
 };

@@ -17,27 +17,32 @@ const CreateFrame = ({ closeModal }) => {
 	return (
 		<div>
 			<div className={styles.container}>
-				<CustomInput type="text" placeholder="Название" value={name} onChange={(e) => setName(e.target.value)} />
+				<CustomInput 
+					type="text" 
+					placeholder="Название" 
+					value={name} 
+					onChange={(e) => setName(e)} 
+				/>
 
 				<CustomInput
 					type="text"
 					placeholder="Количество подъездов"
 					value={countEntries}
-					onChange={(e) => setCountEntries(e.target.value)}
+					onChange={(e) => setCountEntries(e)}
 				/>
 
 				<CustomInput
 					type="text"
 					placeholder="Количество квартир"
 					value={countApartaments}
-					onChange={(e) => setCountApartaments(e.target.value)}
+					onChange={(e) => setCountApartaments(e)}
 				/>
 
 				<CustomInput
 					type="text"
 					placeholder="Количество этажей"
 					value={countFloors}
-					onChange={(e) => setCountFloors(e.target.value)}
+					onChange={(e) => setCountFloors(e)}
 				/>
 			</div>
 			<CustomButton name="Создать" handleClick={createNewObject} />

@@ -11,9 +11,9 @@ const EmployeeRoutes = () => {
   return (
     <Routes>
         <Route path='/employee' element={<InspectorMain />}/>
-        <Route path="/employee/:id" element={<Frame />}/>
-        <Route path="/employee/:id/:frame" element={<Apartments />}/>
-        <Route path="/employee/camera" element={<CameraPage />}/>
+        <Route path="/employee/:object" element={<Frame />}/>
+        <Route path="/employee/:object/:frame" element={<Apartments />}/>
+        <Route path="/employee/:object/:frame/:apartament/camera" element={<CameraPage />}/>
         <Route path="/employee/account" element={<Account />} />
         <Route path='*' element={<Redirect to='/employee' />} />
     </Routes>

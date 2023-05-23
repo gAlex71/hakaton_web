@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Frame.module.scss';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { ListItemButton, ListItemText, Collapse, List } from '@mui/material';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -10,10 +10,12 @@ import store from '../../../store/store';
 const Frame = observer(() => {
 	const {frames, setVisibleListFrame} = store;
 
+	const {object} = useParams();
 	const navigate = useNavigate();
 
 	return (
 		<div className={styles.container}>
+			<Link to='/employee'>Назад</Link>
 			Выберите корпус
 			{frames.map(({ id, name, sections, isShow }) => {
 				return (
@@ -30,7 +32,7 @@ const Frame = observer(() => {
 										<ListItemButton
 											key={section}
 											sx={{ pl: 4 }}
-											onClick={() => navigate(`/employee/:id/${id}`)}
+											onClick={() => navigate(`/employee/${object}/${id}`)}
 										>
 											<ListItemText primary={section} />
 										</ListItemButton>

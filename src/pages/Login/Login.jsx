@@ -36,14 +36,14 @@ const Login = () => {
 					type="email"
 					placeholder="email"
 					value={email}
-					onChange={(e) => setEmail(e.target.value)}
+					onChange={(e) => setEmail(e)}
 				/>
 
 				<CustomInput 
 					type="password"
 					placeholder="пароль"
 					value={password}
-					onChange={(e) => setPassword(e.target.value)}
+					onChange={(e) => setPassword(e)}
 				/>
 			</div>
 
