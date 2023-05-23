@@ -1,24 +1,45 @@
 import React, { useState } from 'react';
 import styles from './Login.module.scss';
-import { Link } from 'react-router-dom';
-// import Webcam from 'react-webcam';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-	const [name, setName] = useState('');
-	const [lastName, setLastName] = useState('');
-	const [phone, setPhone] = useState('');
+	const navigate = useNavigate();
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+
+	const loginApi = () => {
+		navigate('/employee');
+	};
 
 	return (
 		<div className={styles.container}>
-			Авторизация
+			<div className={styles.title}>Войти в аккаунт</div>
 
-        <div className={styles.mainForm}>
-            <input className={styles.inputItem} type='text' placeholder='Имя' value={name} onChange={setName}/>
-            <input className={styles.inputItem} type='text' placeholder='Фамилия' value={lastName} onChange={setLastName}/>
-            <input className={styles.inputItem} type='text' placeholder='Номер телефона' value={phone} onChange={setPhone}/>
-        </div>
+			<div className={styles.border}/>
 
-        <Link to='/employee'>Войти</Link>
+			<div className={styles.input}>
+				<input
+					className={styles.inputItem}
+					type="email"
+					placeholder="email"
+					value={email}
+					onChange={(e) => setEmail(e.target.value)}
+				/>
+
+				<input
+					className={styles.inputItem}
+					type="password"
+					placeholder="пароль"
+					value={password}
+					onChange={(e) => setPassword(e.target.value)}
+				/>
+			</div>
+
+			<div style={{width:'80%'}}>
+				<button className={styles.btn} onClick={loginApi}>
+					Войти
+				</button>
+			</div>
 		</div>
 	);
 };

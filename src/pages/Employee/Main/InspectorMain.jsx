@@ -1,9 +1,11 @@
+import React, {useEffect} from 'react';
 import styles from './InspectorMain.module.scss';
 import a from '../../../assets/a.jpg';
 import b from '../../../assets/b.jpg';
 import c from '../../../assets/c.jpg';
 import e from '../../../assets/e.jpg';
 import { useNavigate } from 'react-router-dom';
+import { apiGet } from '../../../api/api';
 
 const objectsRooms = [
 	{ id: 1, name: 'Квартал Строгино', photo: a, houses: ['Дом 1', 'Дом 2', 'Дом 3', 'Дом 4', 'Дом 5'] },
@@ -14,6 +16,19 @@ const objectsRooms = [
 
 const InspectorMain = () => {
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		getObjects('');
+	}, []);
+
+	const getObjects = (url) => {
+		apiGet(url).then((response) => {
+			console.log(response);
+		})
+		.catch((error) => {
+			console.log(error);
+		});
+	};
 
 	function getLocation() {
 		if (navigator.geolocation) {
