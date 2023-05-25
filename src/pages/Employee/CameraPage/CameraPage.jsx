@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styles from './CameraPage.module.scss';
 import ViewModal from '../../../components/ViewModal/ViewModal';
 import Instruction from '../Instruction/Instruction';
@@ -6,39 +6,70 @@ import CustomButton from '../../../components/CustomButton/CustomButton';
 import { useParams, Link } from 'react-router-dom';
 
 const CameraPage = () => {
-	const {object, frame, apartament} = useParams();
-	const [isOpenModal, setOpenModal] = useState(true);
+	const [pressure, setPressure] = useState(null);
+  const [altitude, setAltitude] = useState(null);
 
-	const pathLast = `/employee/${object}/${frame}`
+  useEffect(() => {
+    if ('Barometer' in window) {
+      const barometer = new Barometer({ frequency: 1 });
 
-	const closeModalInstructions = () => {
-		setOpenModal(false);
-	};
+      barometer.addEventListener('reading', () => {
+        setPressure(barometer.pressure);
+        setAltitude(calculateAltitude());
+      });
 
-	const sendVideo = () => {
-		console.log('ЖК', object);
-		console.log('Дом', frame);
-		console.log('Квартира', apartament);
-	};
+      barometer.start();
 
-	return (
-		<div className={styles.container}>
-			<Link to={pathLast}>Вернуться к списку квартир</Link>
-			<div>Загрузите видео обхода квартиры</div>
+      return () => {
+        barometer.stop();
+      };
+    }
+  }, []);
 
-			<CustomButton name="Отправить видео" handleClick={sendVideo} />
+  const calculateAltitude = () => {
+    const seaLevelPressure = 1013.25; // Среднее атмосферное давление на уровне моря
+    const pressureDiff = seaLevelPressure - pressure;
+    return pressureDiff / 12.0; // Приблизительный расчет высоты
+  }
 
-			<Link>Перейти к следующей квартире</Link>
+  return (
+    <div>
+      {altitude ? `Высота: ${altitude.toFixed(2)} м` : 'Барометр недоступен'}
+    </div>
+  );
+	// const {object, frame, apartament} = useParams();
+	// const [isOpenModal, setOpenModal] = useState(true);
 
-			<ViewModal
-				title="Следуйте инструкцям по обходу квартир"
-				isModal={isOpenModal}
-				closeModal={closeModalInstructions}
-			>
-				<Instruction closeModal={closeModalInstructions} />
-			</ViewModal>
-		</div>
-	);
+	// const pathLast = `/employee/${object}/${frame}`
+
+	// const closeModalInstructions = () => {
+	// 	setOpenModal(false);
+	// };
+
+	// const sendVideo = () => {
+	// 	console.log('ЖК', object);
+	// 	console.log('Дом', frame);
+	// 	console.log('Квартира', apartament);
+	// };
+
+	// return (
+	// 	<div className={styles.container}>
+	// 		<Link to={pathLast}>Вернуться к списку квартир</Link>
+	// 		<div>Загрузите видео обхода квартиры</div>
+
+	// 		<CustomButton name="Отправить видео" handleClick={sendVideo} />
+
+	// 		<Link>Перейти к следующей квартире</Link>
+
+	// 		<ViewModal
+	// 			title="Следуйте инструкцям по обходу квартир"
+	// 			isModal={isOpenModal}
+	// 			closeModal={closeModalInstructions}
+	// 		>
+	// 			<Instruction closeModal={closeModalInstructions} />
+	// 		</ViewModal>
+	// 	</div>
+	// );
 };
 
 export default CameraPage;
