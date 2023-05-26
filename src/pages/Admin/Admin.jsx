@@ -4,13 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import ViewModal from '../../components/ViewModal/ViewModal';
 import CreateObject from './CreateObject/CreateObject';
 import CustomButton from '../../components/CustomButton/CustomButton';
-
-const objectsRooms = [
-	{ id: 1, name: 'Название ЖК1', houses: ['Дом 1', 'Дом 2', 'Дом 3', 'Дом 4', 'Дом 5'] },
-	{ id: 2, name: 'Название ЖК2', houses: ['Дом 1', 'Дом 2', 'Дом 3', 'Дом 4', 'Дом 5'] },
-	{ id: 3, name: 'Название ЖК3', houses: ['Дом 1', 'Дом 2', 'Дом 3', 'Дом 4', 'Дом 5'] },
-	{ id: 4, name: 'Название ЖК4', houses: ['Дом 1', 'Дом 2', 'Дом 3', 'Дом 4', 'Дом 5'] },
-];
+import AllObjects from '../../components/AllObjects/AllObjects';
 
 const Admin = () => {
 	const navigate = useNavigate();
@@ -24,18 +18,15 @@ const Admin = () => {
 		setOpenModal(false);
 	};
 
+	const selectObject = (id) => {
+		navigate(`/admin/${id}`);
+	};
+
 	return (
 		<div className={styles.container}>
 			Выберите ЖК для отслеживания прогресса:
-			<div>
-				{objectsRooms.map(({ id, name, houses }) => {
-					return (
-						<div key={id} onClick={() => navigate(`/admin/${id}`)}>
-							<div>{name}</div>
-						</div>
-					);
-				})}
-			</div>
+			
+			<AllObjects handleSelectObject={(id) => selectObject(id)}/>
 			
 			<CustomButton name="Добавить объект" handleClick={openCreateModal} />
 
