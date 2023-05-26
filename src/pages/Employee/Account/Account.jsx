@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './Account.module.scss';
 import CustomButton from '../../../components/CustomButton/CustomButton';
 import store from '../../../store/store';
+import ListCompleted from '../../../components/ListCompleted/ListCompleted';
 
 const Account = () => {
   const { setAuthUser } = store;
@@ -11,12 +12,11 @@ const Account = () => {
 
   return (
     <div className={styles.container}>
-        account
+        Иван Иванов
 
-        <div>
             Мои обходы
-            План обходов
-        </div>
+
+            <ListCompleted />
 
         <CustomButton name="Выйти" handleClick={goOutAcc}/>
     </div>

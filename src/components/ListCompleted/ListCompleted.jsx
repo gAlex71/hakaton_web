@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import Header from '../../components/Header';
 
 const mockDataInvoices = [
 	{
@@ -81,8 +80,6 @@ const ListCompleted = () => {
 	];
 
 	return (
-		<Box m='20px'>
-			<Header title='INVOICES' subtitle='List of Invoices balances' />
 			<Box
 				m='40px 0 0'
 				height='75vh'
@@ -114,7 +111,6 @@ const ListCompleted = () => {
 			>
 				<DataGrid checkboxSelection rows={mockDataInvoices} columns={columns} />
 			</Box>
-		</Box>
 	);
 };
 
