@@ -11,9 +11,9 @@ const App = observer(() => {
 
 	const routes = {
 		'': <NoAccessRole />,
-		employee: <EmployeeRoutes />,
-		admin: <AdminRoutes />,
-		client: <ClientRoutes />,
+		'employee': <EmployeeRoutes />,
+		'admin': <AdminRoutes />,
+		'client': <ClientRoutes />,
 	};
 
 	return <div className={styles.app}>{routes[authUser]}</div>;

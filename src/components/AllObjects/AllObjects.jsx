@@ -12,7 +12,7 @@ const AllObjects = ({handleSelectObject = () => {}}) => {
 						<div 
                             key={id} 
                             className={styles.card} 
-                            onClick={(id) => handleSelectObject(id)}
+                            onClick={() => handleSelectObject(id)}
                         >
 							<img className={styles.photo} src={photo} alt=''/>
 
