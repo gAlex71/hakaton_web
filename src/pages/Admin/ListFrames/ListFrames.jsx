@@ -5,10 +5,22 @@ import CreateFrame from './CreateFrame/CreateFrame';
 import ViewModal from '../../../components/ViewModal/ViewModal';
 import CustomButton from '../../../components/CustomButton/CustomButton';
 import { useNavigate, useParams } from 'react-router-dom';
+import ListCompleted from '../../../components/ListCompleted/ListCompleted';
+import { observer } from 'mobx-react-lite';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
-const ListFrames = () => {
+const columns = [
+	{ field: 'id', headerName: 'ID' },
+	{ field: 'name', headerName: 'Имя', flex: 1, cellClassName: 'name-column--cell' },
+	{ field: 'lastName', headerName: 'Фамилия', flex: 1, cellClassName: 'name-column--cell' },
+	{ field: 'email', headerName: 'Email', flex: 1 },
+	{ field: 'phone', headerName: 'Телефон', flex: 1 },
+	{ field: 'date', headerName: 'Последний обход', flex: 1 },
+];
+
+const ListFrames = observer(() => {
 	const { frames, employees } = store;
-	const {object} = useParams();
+	const { object } = useParams();
 	const navigate = useNavigate();
     const [isOpenModal, setOpenModal] = useState(false);
 
@@ -22,6 +34,11 @@ const ListFrames = () => {
 
 	return (
 		<div className={styles.container}>
+			<div className={styles.title}>
+				<ArrowBackIosNewIcon sx={{ color: '#007bfb', cursor: 'pointer' }} onClick={() => navigate('/admin')} />
+				Квартал Строгино
+			</div>
+
 			Список корпусов по проекту
 			{frames.map(({ id, name }) => {
 				return <div key={id} onClick={() => navigate(`/admin/${object}/${id}`)}>{name}</div>;
@@ -35,12 +52,10 @@ const ListFrames = () => {
 
 			<div className={styles.blockInfo}>
 				Обходчики на объекте
-				{employees.map(({ id, name }) => {
-					return <div key={id}>{name}</div>;
-				})}
+				<ListCompleted columns={columns} data={employees} />
 			</div>
 		</div>
 	);
-};
+});
 
 export default ListFrames;

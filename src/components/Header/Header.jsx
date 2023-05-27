@@ -14,7 +14,7 @@ const Header = observer(() => {
 			'': '/sigin',
 			'employee': '/employee',
 			'admin': '/admin',
-			'client': '/sigin',
+			'user': '/client',
 		};
 
 		navigate(pages[authUser]);
@@ -25,7 +25,7 @@ const Header = observer(() => {
 			'': '/sigin',
 			'employee': '/employee/account',
 			'admin': '/admin/account',
-			'client': '/client/account',
+			'user': '/client/account',
 		};
 
 		navigate(pages[authUser]);

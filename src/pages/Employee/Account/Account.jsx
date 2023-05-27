@@ -1,26 +1,34 @@
-import React from 'react'
+import React, {useEffect} from 'react';
 import styles from './Account.module.scss';
 import CustomButton from '../../../components/CustomButton/CustomButton';
 import store from '../../../store/store';
 import ListCompleted from '../../../components/ListCompleted/ListCompleted';
+import linksStore from '../../../store/linksStore';
+import {apiGetUser} from '../../../api/api';
 
 const Account = () => {
-  const { setAuthUser } = store;
-  const goOutAcc = () => {
-    setAuthUser('');
-  };
+	const { linkGetUser } = linksStore;
+	useEffect(() => {
+		getInfoUser();
+	}, []);
 
-  return (
-    <div className={styles.container}>
-        Иван Иванов
+	const getInfoUser = () => {
+		apiGetUser(linkGetUser).then(({ data, error }) => {
+			console.log(data);
+			console.log(error);
+		});
+	};
 
-            Мои обходы
+	return (
+		<div className={styles.container}>
+			Иван Иванов
+			{/* Мои обходы
 
             <ListCompleted />
 
-        <CustomButton name="Выйти" handleClick={goOutAcc}/>
-    </div>
-  )
-}
+        <CustomButton name="Выйти" handleClick={goOutAcc}/> */}
+		</div>
+	);
+};
 
 export default Account;

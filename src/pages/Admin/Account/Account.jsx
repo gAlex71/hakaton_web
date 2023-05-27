@@ -1,7 +1,6 @@
-import React, {useEffect} from 'react';
-import styles from './Account.module.scss';
-import linksStore from '../../../store/linksStore';
+import React, { useEffect } from 'react';
 import {apiGetUser} from '../../../api/api';
+import linksStore from '../../../store/linksStore';
 
 const Account = () => {
   const {linkGetUser} = linksStore;
@@ -17,7 +16,7 @@ const Account = () => {
     };
 
   return (
-    <div>Готовность моей квартиры</div>
+    <div>Account</div>
   )
 }
 

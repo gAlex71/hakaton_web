@@ -1,28 +1,30 @@
 import React, { useState } from 'react';
 import styles from './Login.module.scss';
 import store from '../../store/store';
+import linksStore from '../../store/linksStore';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
-import { loginAuth } from '../../api/api';
+import { apiPostAuthorize } from '../../api/api';
+import { observer } from 'mobx-react-lite';
 
-const Login = () => {
+const Login = observer(() => {
 	const {setAuthUser} = store;
+	const {linkLogin} = linksStore;
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
 	const loginApi = () => {
-		setAuthUser('admin');
-		// loginAuth('', email, password).then((data) => {
-		// 	try {
-		// 		const {token, role} = data;
+		apiPostAuthorize(linkLogin, {email, password}).then(({data, error}) => {
+			try {
+				console.log(data);
 
-		// 		setAuthUser(role);
-		// 		localStorage.setItem('token', token);
-		// 	} catch (error) {
-		// 		console.log(error);
-		// 	}
-		// })
+				setAuthUser(data.role);
+				localStorage.setItem('token', data.token);
+			} catch (error) {
+				console.log(error);
+			}
+		})
 	};
 
 	return (
@@ -52,6 +54,6 @@ const Login = () => {
 			</div>
 		</div>
 	);
-};
+});
 
 export default Login;
