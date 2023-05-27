@@ -3,7 +3,6 @@ import styles from './Admin.module.scss';
 import { useNavigate } from 'react-router-dom';
 import ViewModal from '../../components/ViewModal/ViewModal';
 import CreateObject from './CreateObject/CreateObject';
-import CustomButton from '../../components/CustomButton/CustomButton';
 import AllObjects from '../../components/AllObjects/AllObjects';
 
 const Admin = () => {
@@ -24,11 +23,11 @@ const Admin = () => {
 
 	return (
 		<div className={styles.container}>
-			<AllObjects title={'Выберите ЖК для отслеживания прогресса'} handleSelectObject={(id) => selectObject(id)} />
-
-			<div style={{marginLeft: '20px'}}>
-				<CustomButton name="Добавить объект" handleClick={openCreateModal} />
-			</div>
+			<AllObjects 
+				title={'Выберите ЖК для отслеживания прогресса'} 
+				openCreateModal={openCreateModal} 
+				handleSelectObject={(id) => selectObject(id)} 
+			/>
 
 			<ViewModal title="Новый объект" isModal={isOpenModal} closeModal={closeCreateModal}>
 				<CreateObject closeModal={closeCreateModal} />

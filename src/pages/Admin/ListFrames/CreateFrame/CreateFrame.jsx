@@ -4,6 +4,7 @@ import CustomInput from '../../../../components/CustomInput/CustomInput';
 import CustomButton from '../../../../components/CustomButton/CustomButton';
 
 const CreateFrame = ({ closeModal }) => {
+	const [idObj, setIdObj] = useState('');
 	const [name, setName] = useState('');
 	const [countEntries, setCountEntries] = useState('');
 	const [countApartaments, setCountApartaments] = useState('');
@@ -17,6 +18,13 @@ const CreateFrame = ({ closeModal }) => {
 	return (
 		<div>
 			<div className={styles.container}>
+				<CustomInput 
+					type="text" 
+					placeholder="id" 
+					value={idObj} 
+					onChange={(e) => setIdObj(e)} 
+				/>
+
 				<CustomInput 
 					type="text" 
 					placeholder="Название" 

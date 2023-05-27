@@ -5,7 +5,7 @@ import c from '../assets/c.jpg';
 import e from '../assets/e.jpg';
 
 class store {
-	authUser = 'employee';
+	authUser = 'admin';
 
 	allObjects = [
 		{ id: 1, name: 'Квартал Строгино', photo: a, houses: ['Дом 11', 'Дом 12', 'Дом 13', 'Дом 14', 'Дом 15'] },

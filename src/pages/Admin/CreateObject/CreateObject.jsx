@@ -4,6 +4,7 @@ import CustomInput from '../../../components/CustomInput/CustomInput';
 import CustomButton from '../../../components/CustomButton/CustomButton';
 
 const CreateObject = ({ closeModal }) => {
+	const [idObj, setIdObj] = useState('');
 	const [name, setName] = useState('');
 	const [coords, setCoords] = useState('');
 	const [adress, setAdress] = useState('');
@@ -17,6 +18,8 @@ const CreateObject = ({ closeModal }) => {
 	return (
 		<div>
 			<div className={styles.container}>
+				<CustomInput type="text" placeholder="id" value={idObj} onChange={(e) => setIdObj(e)} />
+
 				<CustomInput type="text" placeholder="Название" value={name} onChange={(e) => setName(e)} />
 
 				<CustomInput type="text" placeholder="Координаты" value={coords} onChange={(e) => setCoords(e)} />

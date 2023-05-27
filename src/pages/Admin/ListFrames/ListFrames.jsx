@@ -27,7 +27,7 @@ const ListFrames = () => {
 				return <div key={id} onClick={() => navigate(`/admin/${object}/${id}`)}>{name}</div>;
 			})}
 
-			<CustomButton name="Добавить корпус" handleClick={openCreateModal} />
+			<CustomButton name="+ Добавить корпус" handleClick={openCreateModal} />
 
 			<ViewModal title="Новый корпус" isModal={isOpenModal} closeModal={closeCreateModal}>
 				<CreateFrame closeModal={closeCreateModal} />

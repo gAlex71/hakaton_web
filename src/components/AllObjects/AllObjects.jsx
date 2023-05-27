@@ -1,9 +1,10 @@
 import styles from './AllObjects.module.scss';
 import store from '../../store/store';
 import { useEffect, useState } from 'react';
+import CustomButton from '../CustomButton/CustomButton';
 
-const AllObjects = ({ title, handleSelectObject = () => {} }) => {
-	const { allObjects } = store;
+const AllObjects = ({ title, openCreateModal = () => {}, handleSelectObject = () => {} }) => {
+	const { allObjects, authUser } = store;
 	const [visibleObj, setVisibleObj] = useState(allObjects);
 	const [search, setSearch] = useState('');
 
@@ -27,6 +28,8 @@ const AllObjects = ({ title, handleSelectObject = () => {} }) => {
 	return (
 		<div className={styles.container}>
 			<div className={styles.title}>
+				{authUser === 'admin' && <CustomButton name="+ Добавить объект" handleClick={openCreateModal} />}
+
 				{title}
 
 				<input
