@@ -11,11 +11,7 @@ const Client = () => {
 	};
 
 	return (
-		<div className={styles.container}>
-			Выберите ЖК:
-			
-			<AllObjects handleSelectObject={(id) => selectObject(id)}/>
-		</div>
+		<AllObjects title={'Выберите ЖК'} handleSelectObject={(id) => selectObject(id)}/>
 	);
 };
 

@@ -24,11 +24,11 @@ const Admin = () => {
 
 	return (
 		<div className={styles.container}>
-			Выберите ЖК для отслеживания прогресса:
-			
-			<AllObjects handleSelectObject={(id) => selectObject(id)}/>
-			
-			<CustomButton name="Добавить объект" handleClick={openCreateModal} />
+			<AllObjects title={'Выберите ЖК для отслеживания прогресса'} handleSelectObject={(id) => selectObject(id)} />
+
+			<div style={{marginLeft: '20px'}}>
+				<CustomButton name="Добавить объект" handleClick={openCreateModal} />
+			</div>
 
 			<ViewModal title="Новый объект" isModal={isOpenModal} closeModal={closeCreateModal}>
 				<CreateObject closeModal={closeCreateModal} />

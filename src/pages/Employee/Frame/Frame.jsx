@@ -6,17 +6,20 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { observer } from 'mobx-react-lite';
 import store from '../../../store/store';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 const Frame = observer(() => {
-	const {frames, setVisibleListFrame} = store;
+	const { frames, setVisibleListFrame } = store;
 
-	const {object} = useParams();
+	const { object } = useParams();
 	const navigate = useNavigate();
 
 	return (
 		<div className={styles.container}>
-			<Link to='/employee'>Назад</Link>
-			Выберите корпус
+			<div className={styles.title}>
+				<ArrowBackIosNewIcon sx={{ color: '#007bfb', cursor: 'pointer' }} onClick={() => navigate('/employee')} />
+				Выберите корпус
+			</div>
 			{frames.map(({ id, name, sections, isShow }) => {
 				return (
 					<List key={id}>

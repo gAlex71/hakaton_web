@@ -25,13 +25,7 @@ const InspectorMain = () => {
 	};
 
 	return (
-		<div className={styles.container}>            
-			<div className={styles.title}>
-				Выберите ЖК для обхода
-			</div>
-
-			<AllObjects handleSelectObject={(id) => selectObject(id)}/>
-		</div>
+		<AllObjects title={'Выберите ЖК для обхода'} handleSelectObject={(id) => selectObject(id)}/>
 	);
 };
 
