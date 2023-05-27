@@ -7,6 +7,7 @@ import linksStore from '../../../store/linksStore';
 import {apiGetUser} from '../../../api/api';
 
 const Account = () => {
+	const { setAuthUser } = store;
 	const { linkGetUser } = linksStore;
 	useEffect(() => {
 		getInfoUser();
@@ -19,14 +20,17 @@ const Account = () => {
 		});
 	};
 
+	const signOut = () => {
+		localStorage.removeItem('token');
+		localStorage.removeItem('role');
+		setAuthUser('');
+	  };
+
 	return (
 		<div className={styles.container}>
 			Иван Иванов
-			{/* Мои обходы
-
-            <ListCompleted />
-
-        <CustomButton name="Выйти" handleClick={goOutAcc}/> */}
+			
+			<CustomButton name={'Выйти'} handleClick={signOut} />
 		</div>
 	);
 };

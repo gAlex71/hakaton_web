@@ -2,9 +2,12 @@ import React, {useEffect} from 'react';
 import styles from './Account.module.scss';
 import linksStore from '../../../store/linksStore';
 import {apiGetUser} from '../../../api/api';
+import store from '../../../store/store';
+import CustomButton from '../../../components/CustomButton/CustomButton';
 
 const Account = () => {
   const {linkGetUser} = linksStore;
+  const {setAuthUser} = store;
     useEffect(() => {
         getInfoUser();
     }, []);
@@ -16,8 +19,18 @@ const Account = () => {
         })
     };
 
+    const signOut = () => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('role');
+      setAuthUser('');
+    };
+
   return (
-    <div>Готовность моей квартиры</div>
+    <div>
+      Готовность моей квартиры
+      
+			<CustomButton name={'Выйти'} handleClick={signOut} />
+      </div>
   )
 }
 

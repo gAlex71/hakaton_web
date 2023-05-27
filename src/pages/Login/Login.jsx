@@ -16,14 +16,11 @@ const Login = observer(() => {
 
 	const loginApi = () => {
 		apiPostAuthorize(linkLogin, {email, password}).then(({data, error}) => {
-			try {
 				console.log(data);
-
-				setAuthUser(data.role);
-				localStorage.setItem('token', data.token);
-			} catch (error) {
 				console.log(error);
-			}
+				setAuthUser(data.role);
+				localStorage.setItem('role', data.role);
+				localStorage.setItem('token', data.token);
 		})
 	};
 
