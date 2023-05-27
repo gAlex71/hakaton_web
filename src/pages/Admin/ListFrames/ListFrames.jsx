@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styles from './ListFrames.module.scss';
 import store from '../../../store/store';
 import CreateFrame from './CreateFrame/CreateFrame';
@@ -22,7 +22,7 @@ const ListFrames = observer(() => {
 	const { frames, employees } = store;
 	const { object } = useParams();
 	const navigate = useNavigate();
-    const [isOpenModal, setOpenModal] = useState(false);
+	const [isOpenModal, setOpenModal] = useState(false);
 
 	const openCreateModal = () => {
 		setOpenModal(true);
@@ -39,10 +39,15 @@ const ListFrames = observer(() => {
 				Квартал Строгино
 			</div>
 
-			Список корпусов по проекту
-			{frames.map(({ id, name }) => {
-				return <div key={id} onClick={() => navigate(`/admin/${object}/${id}`)}>{name}</div>;
-			})}
+			<div className={styles.frames}>
+				{frames.map(({ id, name }) => {
+					return (
+						<div key={id} className={styles.frame} onClick={() => navigate(`/admin/${object}/${id}`)}>
+							{name}
+						</div>
+					);
+				})}
+			</div>
 
 			<CustomButton name="+ Добавить корпус" handleClick={openCreateModal} />
 

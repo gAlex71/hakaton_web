@@ -16,7 +16,6 @@ const Login = observer(() => {
 
 	const loginApi = () => {
 		apiPostAuthorize(linkLogin, {email, password}).then(({data, error}) => {
-				console.log(data);
 				console.log(error);
 				setAuthUser(data.role);
 				localStorage.setItem('role', data.role);

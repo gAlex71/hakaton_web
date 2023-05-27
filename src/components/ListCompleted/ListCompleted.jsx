@@ -5,31 +5,33 @@ import { DataGrid } from '@mui/x-data-grid';
 const ListCompleted = ({columns, data}) => {
 	return (
 			<Box
-				m='20px 0 0'
-				height='60vh'
+				m='20px 0'
+				height='50vh'
+				borderRadius={5}
 				sx={{
 					'& .MuiDataGrid-root': {
-						border: 'none',
+						border: '1px solid #99cbff',
+						borderRadius: 5,
 					},
 					'& .MuiDataGrid-cell': {
 						borderBottom: 'none',
 					},
 					'& .name-column--cell': {
-						// color: colors.greenAccent[300],
+						// color: '#9e9e9e',
 					},
 					'& .MuiDataGrid-columnHeaders': {
-						// backgroundColor: colors.blueAccent[700],
+						backgroundColor: '#99cbff',
 						borderBottom: 'none',
 					},
 					'& .MuiDataGrid-virtualScroller': {
-						// backgroundColor: colors.primary[400],
+						// backgroundColor: '#b9d4f0',
 					},
 					'& .MuiDataGrid-footerContainer': {
 						borderTop: 'none',
-						// backgroundColor: colors.blueAccent[700],
+						// backgroundColor: '#b9d4f0',
 					},
 					'& .MuiCheckbox-root': {
-						// color: `${colors.greenAccent[200]} !important`,
+						color: '#b9d4f0',
 					},
 				}}
 			>

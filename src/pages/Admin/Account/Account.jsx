@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { apiGetUser } from '../../../api/api';
 import linksStore from '../../../store/linksStore';
 import CustomButton from '../../../components/CustomButton/CustomButton';
@@ -7,13 +7,16 @@ import store from '../../../store/store';
 const Account = () => {
 	const { setAuthUser } = store;
 	const { linkGetUser } = linksStore;
+
+	const [user, setUser] = useState({});
+
 	useEffect(() => {
 		getInfoUser();
 	}, []);
 
 	const getInfoUser = () => {
 		apiGetUser(linkGetUser).then(({ data, error }) => {
-			console.log(data);
+			setUser(data);
 			console.log(error);
 		});
 	};
@@ -26,8 +29,12 @@ const Account = () => {
 
 	return (
 		<div>
-			Account
-			<CustomButton name={'Выйти'} handleClick={signOut} />
+			 <div>
+				{user.first_name} {user.last_name}
+				{user.email}
+				<CustomButton name={'Выйти'} handleClick={signOut} />
+			</div>
+			
 		</div>
 	);
 };
