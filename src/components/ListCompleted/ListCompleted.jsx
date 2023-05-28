@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
-const ListCompleted = ({columns, data}) => {
+const ListCompleted = ({columns, data, handleTableItem}) => {
 	return (
 			<Box
 				m='20px 0'
@@ -38,6 +38,7 @@ const ListCompleted = ({columns, data}) => {
 				<DataGrid 
 					columns={columns} 
 					rows={data} 
+					onRowClick={handleTableItem}
 				/>
 			</Box>
 	);
