@@ -4,9 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { apiGetProjects } from '../../../api/api';
 import AllObjects from '../../../components/AllObjects/AllObjects';
 import linksStore from '../../../store/linksStore';
+import store from '../../../store/store';
 
 const InspectorMain = () => {
 	const { linkGetProjects} = linksStore;
+	const { allObjects, setAllObjects } = store;
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -15,7 +17,15 @@ const InspectorMain = () => {
 
 	const getObjects = (url = '') => {
 		apiGetProjects(url).then(({data, error}) => {
-			console.log(data);
+			setAllObjects(data.map(({samolet_pk, name, card_image
+			}) => {
+				return {
+					id: samolet_pk,
+					name,
+					photo: card_image
+				}
+			}));
+			// console.log(data);
 			console.log(error);
 		})
 	};
@@ -25,7 +35,11 @@ const InspectorMain = () => {
 	};
 
 	return (
-		<AllObjects title={'Выберите ЖК для обхода'} handleSelectObject={(id) => selectObject(id)}/>
+		<AllObjects
+			data={allObjects}
+			title={'Выберите ЖК для обхода'} 
+			handleSelectObject={(id) => selectObject(id)}
+		/>
 	);
 };
 

@@ -1,45 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Apartments.module.scss';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import { observer } from 'mobx-react-lite';
+import linksStore from '../../../store/linksStore';
+import { apiGetProjects } from '../../../api/api';
+import store from '../../../store/store';
 
-const objects = [
-	{ floor: 1, apartaments: ['2', '1', '3', '2', '3'] },
-	{ floor: 2, apartaments: ['2', '1', '3', '2', '4'] },
-	{ floor: 3, apartaments: ['2', '1', '3', '2', '3'] },
-	{ floor: 4, apartaments: ['2', '1', '3', '2', '3'] },
-	{ floor: 5, apartaments: ['2', '1', '3', '2', '3'] },
-	{ floor: 6, apartaments: ['2', '1', '3', '2', '2'] },
-	{ floor: 7, apartaments: ['2', '1', '3', '2', '3'] },
-	{ floor: 8, apartaments: ['2', '1', '3', '2', '3'] },
-	{ floor: 9, apartaments: ['2', '1', '3', '2', '4'] },
-];
-
-const Apartments = () => {
+const Apartments = observer(() => {
+	const { linkGetFlats } = linksStore;
+	const { apartments, setApartments } = store;
 	const navigate = useNavigate();
-	const {object, frame} = useParams();
-	const [floors, setFloors] = useState(objects.reverse());
+	const { object, frame, section } = useParams();
+	const [floors, setFloors] = useState([]);
 
-	const lastPath = `/employee/${object}`;
+	useEffect(() => {
+		getFlats(`${linkGetFlats}${section}/getflats/`);
+	}, []);
+
+	const getFlats = (url = '') => {
+		apiGetProjects(url).then(({ data, error }) => {
+			setApartments(
+				data
+					.reduce((acc, { floor, number }) => {
+						const floorObj = acc.find((f) => f.floor === floor);
+						if (!floorObj) {
+							acc.push({ id: acc.length + 1, floor, apartaments: [`${number}`] });
+						} else {
+							floorObj.apartaments.push(`${number}`);
+						}
+						return acc;
+					}, [])
+					.map(({ id, floor, apartaments }) => ({ id, floor, apartaments }))
+					.reverse()
+			);
+			console.log(error);
+		});
+	};
 
 	return (
 		<div className={styles.container}>
 			<div className={styles.title}>
-				<ArrowBackIosNewIcon sx={{ color: '#007bfb', cursor: 'pointer' }} onClick={() => navigate('/employee')} />
+				<ArrowBackIosNewIcon
+					sx={{ color: '#007bfb', cursor: 'pointer' }}
+					onClick={() => navigate(`/employee/${object}/${frame}`)}
+				/>
 				Выберите квартиру для обхода
 			</div>
 
 			<div className={styles.list}>
-				{floors.map(({ floor, apartaments }) => {
+				{apartments.map(({ floor, apartaments }) => {
 					return (
 						<div className={styles.floor} key={floor}>
 							{floor}
 							{apartaments.map((apartament) => {
 								return (
-									<div 
-										className={styles.apartament} 
-										key={apartament} 
-										onClick={() => navigate(`/employee/${object}/${frame}/${apartament}/camera`)}
+									<div
+										className={styles.apartament}
+										key={apartament}
+										onClick={() => navigate(`/employee/${object}/${frame}/${section}/${apartament}/camera`)}
 									>
 										{apartament}
 									</div>
@@ -51,6 +70,6 @@ const Apartments = () => {
 			</div>
 		</div>
 	);
-};
+});
 
 export default Apartments;

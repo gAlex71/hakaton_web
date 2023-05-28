@@ -67,7 +67,7 @@ const ListFrames = observer(() => {
 					return (
 						<div key={id} className={styles.frame} onClick={() => navigate(`/admin/${object}/${id}`)}>
 							{name}
-							Кол-во этажей: {floors}
+							<div>Кол-во этажей: {floors}</div>
 							<img style={{width: '100px'}} src={photo}/>
 						</div>
 					);

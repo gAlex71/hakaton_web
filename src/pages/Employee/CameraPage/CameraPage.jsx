@@ -11,12 +11,12 @@ import Uploader from './Uploader/Uploader';
 
 const CameraPage = observer(() => {
 	const {files, setFiles} = store;
-	const { object, frame, apartament } = useParams();
+	const { object, frame, section, apartament } = useParams();
 	const navigate = useNavigate();
 	const [isOpenModal, setOpenModal] = useState(true);
 	const [dragEnter, setDragEnter] = useState(false);
 
-	const pathLast = `/employee/${object}/${frame}`;
+	const pathLast = `/employee/${object}/${frame}/${section}`;
 
 	//Получаем перенесенные в область файлы
     const dropHandler = (event) => {
