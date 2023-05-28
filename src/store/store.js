@@ -7,6 +7,8 @@ import e from '../assets/e.jpg';
 class store {
 	authUser = '';
 	files = [];
+	sections = [];
+	apartments = [];
 
 	employees = [
 		{
@@ -51,12 +53,7 @@ class store {
 		},
 	];
 
-	allObjects = [
-		{ id: 1, name: 'Квартал Строгино', photo: a, houses: ['Дом 11', 'Дом 12', 'Дом 13', 'Дом 14', 'Дом 15'] },
-		{ id: 2, name: 'Квартал Ивакино', photo: b, houses: ['Дом 21', 'Дом 22', 'Дом 23', 'Дом 24', 'Дом 25'] },
-		{ id: 3, name: 'Квартал Марьино', photo: c, houses: ['Дом 31', 'Дом 32', 'Дом 33', 'Дом 34', 'Дом 35'] },
-		{ id: 4, name: 'Квартал Сабурово', photo: e, houses: ['Дом 41', 'Дом 42', 'Дом 43', 'Дом 44', 'Дом 45'] },
-	];
+	allObjects = [];
 
 	frames = [
 		{
@@ -95,6 +92,14 @@ class store {
 		this.authUser = localStorage.getItem('role') || '';
 	}
 
+	setApartments = (apartments) => {
+		this.apartments = apartments;
+	};
+
+	setSections = (sections) => {
+		this.sections = sections;
+	};
+
 	setFiles = (files) => {
 		this.files = files;
 	};
@@ -105,6 +110,10 @@ class store {
 
 	setAllObjects = (objects = []) => {
 		this.allObjects = objects;
+	};
+
+	setFrames = (frames = []) => {
+		this.frames = frames;
 	};
 
 	setVisibleListFrame = (idFrame) => {

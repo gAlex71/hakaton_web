@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './ListFrames.module.scss';
 import store from '../../../store/store';
 import CreateFrame from './CreateFrame/CreateFrame';
@@ -8,6 +8,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import ListCompleted from '../../../components/ListCompleted/ListCompleted';
 import { observer } from 'mobx-react-lite';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import linksStore from '../../../store/linksStore';
+import {apiGetProjects} from '../../../api/api';
 
 const columns = [
 	{ field: 'id', headerName: 'ID' },
@@ -19,10 +21,31 @@ const columns = [
 ];
 
 const ListFrames = observer(() => {
-	const { frames, employees } = store;
+	const { frames, setFrames, employees } = store;
+	const {linkGetProjects} = linksStore;
 	const { object } = useParams();
 	const navigate = useNavigate();
 	const [isOpenModal, setOpenModal] = useState(false);
+
+	useEffect(() => {
+		getBuildings(`${linkGetProjects}${object}/getbuildings/`);
+	}, []);
+
+	const getBuildings = (url = '') => {
+		apiGetProjects(url).then(({data, error}) => {
+			setFrames(data.map(({floors_total, name, plan, samolet_pk}) => {
+				return {
+					id: samolet_pk,
+					name,
+					floors: floors_total,
+					photo: plan,
+					isShow: false
+				}
+			}));
+			// console.log(data);
+			console.log(error);
+		})
+	};
 
 	const openCreateModal = () => {
 		setOpenModal(true);
@@ -40,10 +63,12 @@ const ListFrames = observer(() => {
 			</div>
 
 			<div className={styles.frames}>
-				{frames.map(({ id, name }) => {
+				{frames.map(({ id, name, floors, photo }) => {
 					return (
 						<div key={id} className={styles.frame} onClick={() => navigate(`/admin/${object}/${id}`)}>
 							{name}
+							Кол-во этажей: {floors}
+							<img style={{width: '100px'}} src={photo}/>
 						</div>
 					);
 				})}

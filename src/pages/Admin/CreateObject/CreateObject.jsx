@@ -2,17 +2,33 @@ import React, { useState } from 'react';
 import styles from './CreateObject.module.scss';
 import CustomInput from '../../../components/CustomInput/CustomInput';
 import CustomButton from '../../../components/CustomButton/CustomButton';
+import { apiCreateProject } from '../../../api/adminApi/adminApi';
+import linksStore from '../../../store/linksStore';
+import { observer } from 'mobx-react-lite';
 
-const CreateObject = ({ closeModal }) => {
+const CreateObject = observer(({ closeModal }) => {
+	const {linkGetProjects} = linksStore;
 	const [idObj, setIdObj] = useState('');
 	const [name, setName] = useState('');
-	const [coords, setCoords] = useState('');
-	const [adress, setAdress] = useState('');
-	const [date, setDate] = useState('');
+	const [slug, setSlug] = useState('');
+	const [latitude, setLatitude] = useState('');
+	const [longitude, setLongitude] = useState('');
 
 	const createNewObject = () => {
-		console.log('Создать');
-		closeModal();
+		const newProject = {
+			samolet_pk: idObj,
+			name,
+			slug,
+			latitude,
+        	longitude,
+		}
+		console.log(newProject);
+		// apiCreateProject(linkGetProjects, newProject).then(({data, error}) => {
+		// 	console.log(data);
+		// 	console.log(error);
+		// })
+
+		// closeModal();
 	};
 
 	return (
@@ -22,15 +38,15 @@ const CreateObject = ({ closeModal }) => {
 
 				<CustomInput type="text" placeholder="Название" value={name} onChange={(e) => setName(e)} />
 
-				<CustomInput type="text" placeholder="Координаты" value={coords} onChange={(e) => setCoords(e)} />
+				<CustomInput type="text" placeholder="slug" value={slug} onChange={(e) => setSlug(e)} />
 
-				<CustomInput type="text" placeholder="Адрес" value={adress} onChange={(e) => setAdress(e)} />
+				<CustomInput type="text" placeholder="Долгота" value={latitude} onChange={(e) => setLatitude(e)} />
 
-				<CustomInput type="text" placeholder="Срок сдачи" value={date} onChange={(e) => setDate(e)} />
+				<CustomInput type="text" placeholder="Ширина" value={longitude} onChange={(e) => setLongitude(e)} />
 			</div>
 			<CustomButton name="Создать" handleClick={createNewObject} />
 		</div>
 	);
-};
+});
 
 export default CreateObject;
