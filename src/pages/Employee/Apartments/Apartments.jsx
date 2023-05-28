@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from './Apartments.module.scss';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 const objects = [
 	{ floor: 1, apartaments: ['2', '1', '3', '2', '3'] },
@@ -23,8 +24,10 @@ const Apartments = () => {
 
 	return (
 		<div className={styles.container}>
-			<Link to={lastPath}>Назад</Link>
-			<div className={styles.title}>Выберите квартиру для обхода</div>
+			<div className={styles.title}>
+				<ArrowBackIosNewIcon sx={{ color: '#007bfb', cursor: 'pointer' }} onClick={() => navigate('/employee')} />
+				Выберите квартиру для обхода
+			</div>
 
 			<div className={styles.list}>
 				{floors.map(({ floor, apartaments }) => {

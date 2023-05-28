@@ -1,23 +1,23 @@
 import React, {useEffect} from 'react';
 import styles from './InspectorMain.module.scss';
 import { useNavigate } from 'react-router-dom';
-import { apiGet } from '../../../api/api';
+import { apiGetProjects } from '../../../api/api';
 import AllObjects from '../../../components/AllObjects/AllObjects';
+import linksStore from '../../../store/linksStore';
 
 const InspectorMain = () => {
+	const { linkGetProjects} = linksStore;
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		getObjects('');
+		getObjects(linkGetProjects);
 	}, []);
 
-	const getObjects = (url) => {
-		apiGet(url).then((response) => {
-			console.log(response);
-		})
-		.catch((error) => {
+	const getObjects = (url = '') => {
+		apiGetProjects(url).then(({data, error}) => {
+			console.log(data);
 			console.log(error);
-		});
+		})
 	};
 
 	const selectObject = (id) => {

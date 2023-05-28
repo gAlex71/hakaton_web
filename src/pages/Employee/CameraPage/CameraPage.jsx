@@ -3,10 +3,16 @@ import styles from './CameraPage.module.scss';
 import ViewModal from '../../../components/ViewModal/ViewModal';
 import Instruction from '../Instruction/Instruction';
 import CustomButton from '../../../components/CustomButton/CustomButton';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import store from '../../../store/store';
+import { observer } from 'mobx-react-lite';
+import Uploader from './Uploader/Uploader';
 
-const CameraPage = () => {
+const CameraPage = observer(() => {
+	const {files, setFiles} = store;
 	const { object, frame, apartament } = useParams();
+	const navigate = useNavigate();
 	const [isOpenModal, setOpenModal] = useState(true);
 	const [dragEnter, setDragEnter] = useState(false);
 
@@ -16,17 +22,25 @@ const CameraPage = () => {
     const dropHandler = (event) => {
         event.preventDefault()
         event.stopPropagation()
-        let files = [...event.dataTransfer.files]
-        console.log(files);
+        let newFiles = [...event.dataTransfer.files]
+        console.log(newFiles);
         //Для каждого из файла вызовем функцию загрузки
-        // files.forEach(file => dispatch(uploadFile(file, currentDir)))
+        newFiles.forEach(file => {
+			const uploadFile = {id: Date.now(), name: file.name, progress: 0}
+			setFiles([...files, uploadFile]);
+		})
         setDragEnter(false)
     }
 
 	const fileUploadHandler = (event) => {
 		//Получаем все файлы из инпута
-		const files = [...event.target.files];
-		console.log(files);
+		const newFiles = [...event.target.files];
+		console.log(newFiles);
+
+		newFiles.forEach(file => {
+			const uploadFile = {id: Date.now(), name: file.name, progress: 0}
+			setFiles([...files, uploadFile]);
+		})
 		//Для каждого из файла вызовем функцию загрузки
 		// files.forEach((file) => dispatch(uploadFile(file, currentDir)));
 	};
@@ -55,10 +69,13 @@ const CameraPage = () => {
 
 	return (
 		<div className={styles.container}>
+			<div className={styles.title}>
+				<ArrowBackIosNewIcon sx={{ color: '#007bfb', cursor: 'pointer' }} onClick={() => navigate(pathLast)} />
+				Загрузка данных о квартире
+			</div>
+
 			{!dragEnter ? (
 				<div className={styles.disk} onDragEnter={dragEnterHandler} onDragLeave={dragLeaveHandler} onDragOver={dragEnterHandler}>
-					<Link to={pathLast}>Вернуться к списку квартир</Link>
-
 					<div className={styles.disk_btns}>
 						<div className="disk_upload">
 							<label htmlFor="disk_upload-input" className={styles.diskUpload}>
@@ -86,6 +103,8 @@ const CameraPage = () => {
 				</div>
 			)}
 
+			<Uploader />
+
 			<ViewModal
 				title="Следуйте инструкцям по обходу квартир"
 				isModal={isOpenModal}
@@ -95,6 +114,6 @@ const CameraPage = () => {
 			</ViewModal>
 		</div>
 	);
-};
+});
 
 export default CameraPage;

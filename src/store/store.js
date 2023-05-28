@@ -6,6 +6,7 @@ import e from '../assets/e.jpg';
 
 class store {
 	authUser = '';
+	files = [];
 
 	employees = [
 		{
@@ -91,8 +92,12 @@ class store {
 	constructor() {
 		makeAutoObservable(this);
 
-		this.authUser = localStorage.getItem('role');
+		this.authUser = localStorage.getItem('role') || '';
 	}
+
+	setFiles = (files) => {
+		this.files = files;
+	};
 
 	setAuthUser = (user) => {
 		this.authUser = user;
