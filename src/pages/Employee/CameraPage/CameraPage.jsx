@@ -8,9 +8,12 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import store from '../../../store/store';
 import { observer } from 'mobx-react-lite';
 import Uploader from './Uploader/Uploader';
+import { apiPostFile } from '../../../api/employeeApi/employeeApi';
+import linksStore from '../../../store/linksStore';
 
 const CameraPage = observer(() => {
 	const {files, setFiles} = store;
+	const {linkCreateVideo} = linksStore;
 	const { object, frame, section, apartament } = useParams();
 	const navigate = useNavigate();
 	const [isOpenModal, setOpenModal] = useState(true);
@@ -28,6 +31,11 @@ const CameraPage = observer(() => {
         newFiles.forEach(file => {
 			const uploadFile = {id: Date.now(), name: file.name, progress: 0}
 			setFiles([...files, uploadFile]);
+
+			apiPostFile(linkCreateVideo, file, 1, [], Date.now(), false, apartament).then(({data, error}) => {
+				console.log(data);
+				console.log(error);
+			})
 		})
         setDragEnter(false)
     }
@@ -40,6 +48,11 @@ const CameraPage = observer(() => {
 		newFiles.forEach(file => {
 			const uploadFile = {id: Date.now(), name: file.name, progress: 0}
 			setFiles([...files, uploadFile]);
+
+			apiPostFile(linkCreateVideo, file, 1, [], Date.now(), false, apartament).then(({data, error}) => {
+				console.log(data);
+				console.log(error);
+			})
 		})
 		//Для каждого из файла вызовем функцию загрузки
 		// files.forEach((file) => dispatch(uploadFile(file, currentDir)));
