@@ -10,26 +10,27 @@ import linksStore from '../../../store/linksStore';
 import { apiGetProjects } from '../../../api/api';
 import { observer } from 'mobx-react-lite';
 import store from '../../../store/store';
+import ModalRoom from '../ModalRoom/ModalRoom';
 
 const dataResult = [
 	{
 		id: 1,
 		label: 'Готовность',
-		value: 239,
+		value: 90 / 100,
 		color: 'hsl(291, 70%, 50%)',
 	},
-	{
-		id: 2,
-		label: 'Остаток работ',
-		value: 170,
-		color: 'hsl(162, 70%, 50%)',
-	},
-	{
-		id: 3,
-		label: 'Мусор',
-		value: 322,
-		color: 'hsl(104, 70%, 50%)',
-	},
+	// {
+	// 	id: 2,
+	// 	label: 'Остаток работ',
+	// 	value: 170,
+	// 	color: 'hsl(162, 70%, 50%)',
+	// },
+	// {
+	// 	id: 3,
+	// 	label: 'Мусор',
+	// 	value: 322,
+	// 	color: 'hsl(104, 70%, 50%)',
+	// },
 ];
 
 const columns = [
@@ -40,33 +41,60 @@ const columns = [
 ];
 
 const DashBoard = observer(() => {
-	const { linkGetFlats } = linksStore;
+	const { linkGetFlats, linkGetRounds } = linksStore;
 	const { apartments, setApartments } = store;
 	const { object, frame, section } = useParams();
 	const navigate = useNavigate();
 
 	const [isModal, setIsModal] = useState(false);
 	const [selectItem, setSelectItem] = useState({});
+	const [dataRoom, setDataRoom] = useState({});
+	const [dataObjects, setDataObjects] = useState([]);
 
 	useEffect(() => {
 		getFlats(`${linkGetFlats}${section}/getflats/`);
+		getRounds(linkGetRounds);
 	}, []);
 
 	const getFlats = (url = '') => {
 		apiGetProjects(url).then(({ data, error }) => {
-			setApartments(data.map(({id, floor, number, section}) => {
-				return {
-					id,
-					frame: section,
-					floor,
-					number,
-					status: 'Готово',
-				}
-			}));
-			console.log(data);
+			setApartments(
+				data.map(({ id, floor, number, section }) => {
+					return {
+						id,
+						frame: section,
+						floor,
+						number,
+						status: 'Готово',
+					};
+				})
+			);
+			// console.log(data);
+			// console.log(error);
+		});
+	};
+
+	const getRounds = (url = '') => {
+		apiGetProjects(url).then(({ data, error }) => {
+			data.map(({ id, flat, date, analysis }) => {
+				setDataRoom({ id, number: flat, date, working: analysis.Ready_precentage, status: 'Готово' });
+				
+				setDataObjects(analysis.Detected_objects.map((item) => {
+					const {Frame_count, Name, Score} = item;
+
+					return {
+						id: Frame_count,
+						label: Name,
+						value: Score,
+						color: `hsl(2${Score}, 70%, 50%)`
+					}
+				}));
+			});
 			console.log(error);
 		});
 	};
+
+	console.log(dataObjects);
 
 	const handleTableItem = ({ row: { frame, floor, number, status } }) => {
 		setIsModal(true);
@@ -75,32 +103,31 @@ const DashBoard = observer(() => {
 
 	return (
 		<Box>
-			<ArrowBackIosNewIcon
-				sx={{ color: '#007bfb', cursor: 'pointer' }}
-				onClick={() => navigate(`/admin/${object}/${frame}`)}
-			/>
-
-			<div style={{ display: 'flex' }}>
+			{/* <div style={{ display: 'flex' }}>
 				<Box height="50vh" width="50vw">
 					<PieChart data={dataResult} />
 				</Box>
 
 				<div>Общая информация о секции</div>
-			</div>
+			</div> */}
 
 			<div className={styles.blockInfo}>
+				<ArrowBackIosNewIcon
+					sx={{ color: '#007bfb', cursor: 'pointer' }}
+					onClick={() => navigate(`/admin/${object}/${frame}`)}
+				/>
 				Список квартир
 				<ListCompleted columns={columns} data={apartments} handleTableItem={handleTableItem} />
 			</div>
 
-			<ViewModal title={'Готовность квартиры'} isModal={isModal} closeModal={() => setIsModal(false)}>
-				<div style={{ display: 'flex', flexDirection: 'column' }}>
-					<div>Квартира номер {selectItem.number}</div>
-					<div>Подъезд {selectItem.frame}</div>
-					<div>Этаж {selectItem.floor}</div>
-					<div>Готовность квартиры: {selectItem.status}</div>
-				</div>
-			</ViewModal>
+			<ModalRoom 
+				title={'Готовность квартиры'} 
+				isModal={isModal} 
+				closeModal={() => setIsModal(false)}
+				dataRoom={dataRoom}
+				dataObjects={dataObjects}
+			/>
+				
 		</Box>
 	);
 });

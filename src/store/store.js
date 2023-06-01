@@ -89,7 +89,7 @@ class store {
 	constructor() {
 		makeAutoObservable(this);
 
-		this.authUser = localStorage.getItem('role') || '';
+		this.authUser = localStorage.getItem('role') ?? '';
 	}
 
 	setApartments = (apartments) => {
