@@ -18,6 +18,8 @@ const CameraPage = observer(() => {
 	const navigate = useNavigate();
 	const [isOpenModal, setOpenModal] = useState(true);
 	const [dragEnter, setDragEnter] = useState(false);
+	const [videoFile, setVideoFile] = useState({});
+	const [isLoad, setLoad] = useState(false);
 
 	const pathLast = `/employee/${object}/${frame}/${section}`;
 
@@ -25,37 +27,18 @@ const CameraPage = observer(() => {
     const dropHandler = (event) => {
         event.preventDefault()
         event.stopPropagation()
-        let newFiles = [...event.dataTransfer.files]
-        console.log(newFiles);
+        const newFiles = event.target.files
+		setVideoFile(newFiles[0]);
         //Для каждого из файла вызовем функцию загрузки
-        newFiles.forEach(file => {
-			const uploadFile = {id: Date.now(), name: file.name, progress: 0}
-			setFiles([...files, uploadFile]);
-
-			apiPostFile(linkCreateVideo, file, 1, [], Date.now(), false, apartament).then(({data, error}) => {
-				console.log(data);
-				console.log(error);
-			})
-		})
         setDragEnter(false)
     }
 
 	const fileUploadHandler = (event) => {
+		event.preventDefault()
+        event.stopPropagation()
 		//Получаем все файлы из инпута
-		const newFiles = [...event.target.files];
-		console.log(newFiles);
-
-		newFiles.forEach(file => {
-			const uploadFile = {id: Date.now(), name: file.name, progress: 0}
-			setFiles([...files, uploadFile]);
-
-			apiPostFile(linkCreateVideo, file, 1, [], Date.now(), false, apartament).then(({data, error}) => {
-				console.log(data);
-				console.log(error);
-			})
-		})
-		//Для каждого из файла вызовем функцию загрузки
-		// files.forEach((file) => dispatch(uploadFile(file, currentDir)));
+		const newFiles = event.target.files
+		setVideoFile(newFiles[0]);
 	};
 
 	const dragEnterHandler = (event) => {
@@ -75,6 +58,22 @@ const CameraPage = observer(() => {
     }
 
 	const sendVideo = () => {
+		setLoad(true);
+
+		// const resultData ={
+		// 	id: 1,
+		// 	date: Date.now(),
+		// 	analysis: [],
+		// 	is_analysed: false,
+		// 	flat: parseInt(apartament) 
+		// }
+		apiPostFile(linkCreateVideo, videoFile, parseInt(apartament)).then(({data, error}) => {
+			setLoad(false);
+
+			console.log(data);
+			console.log(error);
+		})
+
 		console.log('ЖК', object);
 		console.log('Дом', frame);
 		console.log('Квартира', apartament);
@@ -116,7 +115,9 @@ const CameraPage = observer(() => {
 				</div>
 			)}
 
-			<Uploader />
+			{isLoad && <div>Загрузка файлов на сервер, подождите...</div>}
+
+			<CustomButton name={'Отправить видео'} handleClick={sendVideo}/>
 
 			<ViewModal
 				title="Следуйте инструкцям по обходу квартир"
