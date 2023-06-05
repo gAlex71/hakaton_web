@@ -6,20 +6,16 @@ export const apiPostFile = async (url = '',file, apartament) => {
 	};
 
     const formData = new FormData();
-	formData.append('data', JSON.stringify({flat: apartament}));
-    // formData.append('video', file);
-
-	console.log(formData);
+    formData.append('video', file);
+	formData.append('flat', apartament);
 
 	const options = {
 		method: 'POST',
 		mode: 'cors',
 		headers: {
-			'Content-Type': 'application/json',
 			Authorization: `Bearer ${localStorage.getItem('token')}`,
 		},
-        // body: formData,
-		body: JSON.stringify({flat: apartament}),
+        body: formData,
 	};
 
 	try {

@@ -20,20 +20,24 @@ const Apartments = observer(() => {
 
 	const getFlats = (url = '') => {
 		apiGetProjects(url).then(({ data, error }) => {
+			console.log(data);
 			setApartments(
+				// const resultData = 
 				data
-					.reduce((acc, { floor, number }) => {
+					.reduce((acc, { id, floor, number, checks }) => {
 						const floorObj = acc.find((f) => f.floor === floor);
 						if (!floorObj) {
-							acc.push({ id: acc.length + 1, floor, apartaments: [`${number}`] });
+							acc.push({ id: acc.length + 1, floor, apartaments: [{ id, number, checks }] });
 						} else {
-							floorObj.apartaments.push(`${number}`);
+							floorObj.apartaments.push({ id, number, checks });
 						}
 						return acc;
 					}, [])
 					.map(({ id, floor, apartaments }) => ({ id, floor, apartaments }))
 					.reverse()
 			);
+
+			// console.log(resultData);
 			console.log(error);
 		});
 	};
@@ -53,14 +57,14 @@ const Apartments = observer(() => {
 					return (
 						<div className={styles.floor} key={floor}>
 							{floor}
-							{apartaments.map((apartament) => {
+							{apartaments.map(({id, number/*, floor*/}) => {
 								return (
 									<div
 										className={styles.apartament}
-										key={apartament}
-										onClick={() => navigate(`/employee/${object}/${frame}/${section}/${apartament}/camera`)}
+										key={id}
+										onClick={() => navigate(`/employee/${object}/${frame}/${section}/${id}/camera`)}
 									>
-										{apartament}
+										{number}
 									</div>
 								);
 							})}
