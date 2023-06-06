@@ -11,19 +11,29 @@ const Login = observer(() => {
 	const { setAuthUser } = store;
 	const { linkLogin } = linksStore;
 
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
+	// const [email, setEmail] = useState('');
+	// const [password, setPassword] = useState('');
 
-	const loginApi = () => {
+	// const loginApi = () => {
+	// 	apiPostAuthorize(linkLogin, { email, password }).then(({ data, error }) => {
+	// 		console.log(error);
+
+	// 		setAuthUser(data.role);
+	// 		localStorage.setItem('role', data.role);
+	// 		localStorage.setItem('token', data.token);
+	// 		// localStorage.setItem('role', data.role);
+	// 		// localStorage.setItem('token', data.token);
+	// 	});
+	// };
+
+	const loginApi = (email, password) => {
 		apiPostAuthorize(linkLogin, { email, password }).then(({ data, error }) => {
 			console.log(error);
 
 			setAuthUser(data.role);
 			localStorage.setItem('role', data.role);
 			localStorage.setItem('token', data.token);
-			// localStorage.setItem('role', data.role);
-			// localStorage.setItem('token', data.token);
-		});
+		})
 	};
 
 	return (
@@ -32,7 +42,22 @@ const Login = observer(() => {
 
 			<div className={styles.border} />
 
-			<div className={styles.input}>
+			<CustomButton 
+				name="Пользователь" 
+				handleClick={() => loginApi('user@user.ru', 'user')} 
+			/>
+
+			<CustomButton 
+				name="Обходчик" 
+				handleClick={() => loginApi('employee@employee.ru', 'employee')} 
+			/>
+
+			<CustomButton 
+				name="Администратор" 
+				handleClick={() => loginApi('admin@admin.ru', 'admin')} 
+			/>
+
+			{/* <div className={styles.input}>
 				<CustomInput type="email" placeholder="email" value={email} onChange={(e) => setEmail(e)} />
 
 				<CustomInput type="password" placeholder="пароль" value={password} onChange={(e) => setPassword(e)} />
@@ -40,7 +65,7 @@ const Login = observer(() => {
 
 			<div style={{ width: '90%' }}>
 				<CustomButton name="Войти" handleClick={loginApi} />
-			</div>
+			</div> */}
 		</div>
 	);
 });

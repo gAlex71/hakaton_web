@@ -1,11 +1,20 @@
 import { makeAutoObservable } from 'mobx';
-import a from '../assets/a.jpg';
-import b from '../assets/b.jpg';
-import c from '../assets/c.jpg';
-import e from '../assets/e.jpg';
+
+const getIsAuthorize = () => {
+	const authData = localStorage.getItem('role');
+
+	if (authData !== null) {
+		const parsedAuthData = JSON.parse(authData);
+		return parsedAuthData.isAuthorize;
+	}
+	return false;
+};
 
 class store {
 	authUser = '';
+
+	// isAuthorize = false;
+
 	files = [];
 	sections = [];
 	apartments = [];
@@ -55,41 +64,14 @@ class store {
 
 	allObjects = [];
 
-	frames = [
-		{
-			id: 1,
-			name: 'Корпус 1',
-			isShow: true,
-			info: 'info1',
-			sections: ['Секция 1', 'Секция 2', 'Секция 3', 'Секция 4', 'Секция 5'],
-		},
-		{
-			id: 2,
-			name: 'Корпус 2',
-			isShow: false,
-			info: 'info2',
-			sections: ['Секция 1', 'Секция 2', 'Секция 3', 'Секция 4', 'Секция 5'],
-		},
-		{
-			id: 3,
-			name: 'Корпус 3',
-			isShow: false,
-			info: 'info3',
-			sections: ['Секция 1', 'Секция 2', 'Секция 3', 'Секция 4', 'Секция 5'],
-		},
-		{
-			id: 4,
-			name: 'Корпус 4',
-			isShow: false,
-			info: 'info4',
-			sections: ['Секция 1', 'Секция 2', 'Секция 3', 'Секция 4', 'Секция 5'],
-		},
-	];
+	frames = [];
 
 	constructor() {
 		makeAutoObservable(this);
 
 		this.authUser = localStorage.getItem('role') ?? '';
+
+		this.isAuthorize = getIsAuthorize();
 	}
 
 	setApartments = (apartments) => {
