@@ -1,16 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import styles from './Dashboard.module.scss';
+import React, { useEffect } from 'react';
+import styles from './Apartaments.module.scss';
 import { Box } from '@mui/material';
-import PieChart from '../../../components/PieChart/PieChart';
-import ListCompleted from '../../../components/ListCompleted/ListCompleted';
 import { useNavigate, useParams } from 'react-router-dom';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import ViewModal from '../../../components/ViewModal/ViewModal';
 import linksStore from '../../../store/linksStore';
 import { apiGetProjects } from '../../../api/api';
 import { observer } from 'mobx-react-lite';
 import store from '../../../store/store';
-import ModalRoom from '../ModalRoom/ModalRoom';
 
 const DashBoard = observer(() => {
 	const { linkGetFlats } = linksStore;
@@ -18,15 +14,13 @@ const DashBoard = observer(() => {
 	const { object, frame, section } = useParams();
 	const navigate = useNavigate();
 
-	const [isModal, setIsModal] = useState(false);
-	const [selectItem, setSelectItem] = useState({});
-
 	useEffect(() => {
 		getFlats(`${linkGetFlats}${section}/getflats/`);
 	}, []);
 
 	const getFlats = (url = '') => {
 		apiGetProjects(url).then(({ data, error }) => {
+			console.log(data);
 			setApartments(
 				data
 					.reduce((acc, { id, floor, number, checks }) => {
@@ -45,10 +39,11 @@ const DashBoard = observer(() => {
 		});
 	};
 
-	const handleTableItem = ({ row: { frame, floor, number, status } }) => {
-		setIsModal(true);
-		setSelectItem({ frame, floor, number, status });
+	const handleTableItem = (id) => {
+		navigate(`/admin/${object}/${frame}/${section}/${id}`);
 	};
+
+	console.log(apartments);
 
 	return (
 		<Box>
@@ -58,36 +53,27 @@ const DashBoard = observer(() => {
 					onClick={() => navigate(`/admin/${object}/${frame}`)}
 				/>
 				Список квартир
-
 				<div className={styles.list}>
-				{apartments.map(({ floor, apartaments }) => {
-					return (
-						<div className={styles.floor} key={floor}>
-							{floor}
-							{apartaments.map((apartament) => {
-								return (
-									<div
-										className={styles.apartament}
-										key={apartament}
-										onClick={handleTableItem}
-									>
-										{apartament}
-									</div>
-								);
-							})}
-						</div>
-					);
-				})}
+					{apartments.map(({ id, floor, apartaments }) => {
+						return (
+							<div className={styles.floor} key={`${id}-${floor}`}>
+								{floor}
+								{apartaments.map(({ id, number }) => {
+									return (
+										<div
+											className={styles.apartament}
+											key={`${id}-${number}`}
+											onClick={() => handleTableItem(id)}
+										>
+											{number}
+										</div>
+									);
+								})}
+							</div>
+						);
+					})}
+				</div>
 			</div>
-
-
-			</div>
-
-			<ModalRoom 
-				title={'Готовность квартиры'} 
-				isModal={isModal} 
-				closeModal={() => setIsModal(false)}
-			/>
 		</Box>
 	);
 });
