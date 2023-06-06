@@ -44,7 +44,7 @@ const Account = () => {
 	const signOut = () => {
 		localStorage.removeItem('token');
 		localStorage.removeItem('role');
-		setAuthUser('');
+		setAuthUser('logout');
 	};
 
 	return (

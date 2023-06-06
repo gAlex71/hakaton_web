@@ -20,9 +20,7 @@ const Apartments = observer(() => {
 
 	const getFlats = (url = '') => {
 		apiGetProjects(url).then(({ data, error }) => {
-			console.log(data);
 			setApartments(
-				// const resultData = 
 				data
 					.reduce((acc, { id, floor, number, checks }) => {
 						const floorObj = acc.find((f) => f.floor === floor);
@@ -36,11 +34,11 @@ const Apartments = observer(() => {
 					.map(({ id, floor, apartaments }) => ({ id, floor, apartaments }))
 					.reverse()
 			);
-
-			// console.log(resultData);
 			console.log(error);
 		});
 	};
+
+	console.log(apartments);
 
 	return (
 		<div className={styles.container}>

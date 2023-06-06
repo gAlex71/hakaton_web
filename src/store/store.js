@@ -4,16 +4,14 @@ const getIsAuthorize = () => {
 	const authData = localStorage.getItem('role');
 
 	if (authData !== null) {
-		const parsedAuthData = JSON.parse(authData);
-		return parsedAuthData.isAuthorize;
+		return authData;
 	}
-	return false;
+
+	return 'logout';
 };
 
 class store {
-	authUser = '';
-
-	// isAuthorize = false;
+	authUser = 'logout';
 
 	files = [];
 	sections = [];
@@ -69,9 +67,7 @@ class store {
 	constructor() {
 		makeAutoObservable(this);
 
-		this.authUser = localStorage.getItem('role') ?? '';
-
-		this.isAuthorize = getIsAuthorize();
+		this.authUser = getIsAuthorize();
 	}
 
 	setApartments = (apartments) => {
