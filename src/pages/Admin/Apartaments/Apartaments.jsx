@@ -8,12 +8,9 @@ import { apiGetProjects } from '../../../api/api';
 import { observer } from 'mobx-react-lite';
 import store from '../../../store/store';
 
-const test = 15; // sData
-const background = test < 30 ? '#red' : test > 30 && test < 70 ? '#yellow' : '#green';
-
 const DashBoard = observer(() => {
 	const { linkGetFlats } = linksStore;
-	const { apartments, setApartments } = store;
+	const { apartments, setApartments, setNumberFlat } = store;
 	const { object, frame, section } = useParams();
 	const navigate = useNavigate();
 
@@ -46,7 +43,8 @@ const DashBoard = observer(() => {
 		});
 	};
 
-	const handleTableItem = (id) => {
+	const handleTableItem = (id, number) => {
+		setNumberFlat(number);
 		navigate(`/admin/${object}/${frame}/${section}/${id}`);
 	};
 
@@ -79,7 +77,7 @@ const DashBoard = observer(() => {
 											style={{ background }}
 											className={styles.apartament}
 											key={`${id}-${number}`}
-											onClick={() => handleTableItem(id)}
+											onClick={() => handleTableItem(id, number)}
 										>
 											{number}
 										</div>

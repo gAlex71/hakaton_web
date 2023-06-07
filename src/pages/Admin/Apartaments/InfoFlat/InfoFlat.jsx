@@ -5,11 +5,14 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useNavigate, useParams } from 'react-router-dom';
 import { apiGetProjects } from '../../../../api/api';
 import linksStore from '../../../../store/linksStore';
+import { observer } from 'mobx-react-lite';
+import store from '../../../../store/store';
 
-const InfoFlat = () => {
+const InfoFlat = observer(() => {
 	const navigate = useNavigate();
 	const { object, frame, section, flat } = useParams();
 	const { linkGetRounds } = linksStore;
+	const { numberFlat } = store;
 
 	useEffect(() => {
 		getRounds(`${linkGetRounds}${flat}/getchecks/`);
@@ -45,7 +48,7 @@ const InfoFlat = () => {
 					sx={{ color: '#007bfb', cursor: 'pointer' }}
 					onClick={() => navigate(`/admin/${object}/${frame}/${section}`)}
 				/>
-				Квартира № {flat}
+				Квартира № {numberFlat}
 			</div>
 
 			<div>Информация по последнему обходу</div>
@@ -53,7 +56,7 @@ const InfoFlat = () => {
 			<div>Обходы</div>
 		</Box>
 	);
-};
+});
 
 export default InfoFlat;
 

@@ -16,6 +16,8 @@ class store {
 	sections = [];
 	apartments = [];
 
+	numberFlat = null;
+
 	employees = [
 		{
 			id: 1,
@@ -72,6 +74,10 @@ class store {
 	setApartments = (apartments) => {
 		this.apartments = apartments;
 	};
+
+	setNumberFlat = (numberFlat) => {
+		this.numberFlat = numberFlat;
+	}
 
 	setSections = (sections) => {
 		this.sections = sections;
