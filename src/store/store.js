@@ -13,7 +13,6 @@ const getIsAuthorize = () => {
 class store {
 	authUser = 'logout';
 
-	files = [];
 	sections = [];
 	apartments = [];
 
@@ -76,10 +75,6 @@ class store {
 
 	setSections = (sections) => {
 		this.sections = sections;
-	};
-
-	setFiles = (files) => {
-		this.files = files;
 	};
 
 	setAuthUser = (user) => {
