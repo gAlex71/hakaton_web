@@ -59,7 +59,7 @@ const ListFrames = observer(() => {
 		<div className={styles.container}>
 			<div className={styles.title}>
 				<ArrowBackIosNewIcon sx={{ color: '#007bfb', cursor: 'pointer' }} onClick={() => navigate('/admin')} />
-				Квартал Строгино
+				Выберите корпус
 			</div>
 
 			<div className={styles.frames}>

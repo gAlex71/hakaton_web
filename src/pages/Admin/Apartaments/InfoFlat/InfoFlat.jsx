@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import styles from './InfoFlat.module.scss';
 import { Box } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
@@ -9,11 +9,11 @@ import linksStore from '../../../../store/linksStore';
 const InfoFlat = () => {
 	const navigate = useNavigate();
 	const { object, frame, section, flat } = useParams();
-  const { linkGetRounds } = linksStore;
+	const { linkGetRounds } = linksStore;
 
-  useEffect(() => {
-      getRounds(`${linkGetRounds}${flat}/getchecks/`);
-  }, []);
+	useEffect(() => {
+		getRounds(`${linkGetRounds}${flat}/getchecks/`);
+	}, []);
 
 	const getRounds = (url = '') => {
 		apiGetProjects(url).then(({ data, error }) => {
@@ -40,11 +40,17 @@ const InfoFlat = () => {
 
 	return (
 		<Box>
-			<ArrowBackIosNewIcon
-				sx={{ color: '#007bfb', cursor: 'pointer' }}
-				onClick={() => navigate(`/admin/${object}/${frame}/${section}`)}
-			/>
-			Квартира № {flat}
+			<div className={styles.title}>
+				<ArrowBackIosNewIcon
+					sx={{ color: '#007bfb', cursor: 'pointer' }}
+					onClick={() => navigate(`/admin/${object}/${frame}/${section}`)}
+				/>
+				Квартира № {flat}
+			</div>
+
+			<div>Информация по последнему обходу</div>
+
+			<div>Обходы</div>
 		</Box>
 	);
 };

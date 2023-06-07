@@ -5,6 +5,8 @@ import { observer } from 'mobx-react-lite';
 import { apiGetProjects } from '../../../api/api';
 import { useParams, useNavigate } from 'react-router-dom';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import { Box } from '@mui/material';
+import styles from './Sections.module.scss';
 
 const Sections = observer(() => {
 	const { linkGetSections } = linksStore;
@@ -35,11 +37,15 @@ const Sections = observer(() => {
 	};
 
 	return (
-		<div>
-			<ArrowBackIosNewIcon
-				sx={{ color: '#007bfb', cursor: 'pointer' }}
-				onClick={() => navigate(`/admin/${object}`)}
-			/>
+		<Box>
+			<div className={styles.title}>
+				<ArrowBackIosNewIcon
+					sx={{ color: '#007bfb', cursor: 'pointer' }}
+					onClick={() => navigate(`/admin/${object}`)}
+				/>
+				Выберите секцию
+			</div>
+
 			{sections.map(({ id, name, floors, flats, frame }) => {
 				return (
 					<div
@@ -53,7 +59,7 @@ const Sections = observer(() => {
 					</div>
 				);
 			})}
-		</div>
+		</Box>
 	);
 });
 

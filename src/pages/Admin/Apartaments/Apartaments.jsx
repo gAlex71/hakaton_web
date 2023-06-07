@@ -8,6 +8,9 @@ import { apiGetProjects } from '../../../api/api';
 import { observer } from 'mobx-react-lite';
 import store from '../../../store/store';
 
+const test = 15; // sData
+const background = test < 30 ? '#red' : test > 30 && test < 70 ? '#yellow' : '#green';
+
 const DashBoard = observer(() => {
 	const { linkGetFlats } = linksStore;
 	const { apartments, setApartments } = store;
@@ -23,12 +26,16 @@ const DashBoard = observer(() => {
 			console.log(data);
 			setApartments(
 				data
-					.reduce((acc, { id, floor, number, checks }) => {
+					.reduce((acc, { id, floor, number, Ready_precentage, checks }) => {
 						const floorObj = acc.find((f) => f.floor === floor);
 						if (!floorObj) {
-							acc.push({ id: acc.length + 1, floor, apartaments: [{ id, number, checks }] });
+							acc.push({
+								id: acc.length + 1,
+								floor,
+								apartaments: [{ id, number, Ready_precentage, checks }],
+							});
 						} else {
-							floorObj.apartaments.push({ id, number, checks });
+							floorObj.apartaments.push({ id, number, Ready_precentage, checks });
 						}
 						return acc;
 					}, [])
@@ -48,19 +55,28 @@ const DashBoard = observer(() => {
 	return (
 		<Box>
 			<div className={styles.blockInfo}>
-				<ArrowBackIosNewIcon
-					sx={{ color: '#007bfb', cursor: 'pointer' }}
-					onClick={() => navigate(`/admin/${object}/${frame}`)}
-				/>
-				Список квартир
+				<div className={styles.title}>
+					<ArrowBackIosNewIcon
+						sx={{ color: '#007bfb', cursor: 'pointer' }}
+						onClick={() => navigate(`/admin/${object}/${frame}`)}
+					/>
+					Список квартир
+				</div>
+
 				<div className={styles.list}>
 					{apartments.map(({ id, floor, apartaments }) => {
 						return (
 							<div className={styles.floor} key={`${id}-${floor}`}>
 								{floor}
-								{apartaments.map(({ id, number }) => {
+								{apartaments.map(({ id, number, Ready_precentage }) => {
+									const t = Math.min(Math.max(Ready_precentage, 0), 100);
+									const r = Math.round(255 * Math.min((100 - t) / 50, 1));
+									const g = Math.round(255 * Math.min(t / 50, 1));
+									const background = `rgba(${r}, ${g}, 0, 0.3)`;
+
 									return (
 										<div
+											style={{ background }}
 											className={styles.apartament}
 											key={`${id}-${number}`}
 											onClick={() => handleTableItem(id)}
