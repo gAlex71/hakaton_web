@@ -46,19 +46,21 @@ const Sections = observer(() => {
 				Выберите секцию
 			</div>
 
-			{sections.map(({ id, name, floors, flats, frame }) => {
-				return (
-					<div
-						key={id}
-						style={{ display: 'flex', flexDirection: 'column', cursor: 'pointer' }}
-						onClick={() => navigate(`/admin/${object}/${frame}/${id}`)}
-					>
-						<div>Секция {name}</div>
-						<div>Этажей: {floors}</div>
-						<div>Квартир на этаже: {flats}</div>
-					</div>
-				);
-			})}
+			<div className={styles.frames}>
+				{sections.map(({ id, name, floors, flats, frame }) => {
+					return (
+						<div
+							key={id}
+							className={styles.frame}
+							onClick={() => navigate(`/admin/${object}/${frame}/${id}`)}
+						>
+							<div>Секция {name}</div>
+							<div>Этажей: {floors}</div>
+							<div>Квартир на этаже: {flats}</div>
+						</div>
+					);
+				})}
+			</div>
 		</Box>
 	);
 });
