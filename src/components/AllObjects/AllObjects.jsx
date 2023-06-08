@@ -26,7 +26,7 @@ const AllObjects = observer(({ title, openCreateModal = () => {}, handleSelectOb
 
 			{authUser === 'admin' && <CustomButton name="+ Добавить объект" handleClick={openCreateModal} />}
 
-			<Box>
+			<Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
 				{allObjects.filter(searchObject).map(({ id, name, photo }) => {
 					return (
 						<div key={id} className={styles.card} onClick={() => handleSelectObject(id)}>

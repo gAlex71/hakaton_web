@@ -26,9 +26,9 @@ const Login = observer(() => {
 			<div className={styles.title}>Войти в аккаунт</div>
 
 			<Box>
-				<div style={{ margin: '20px' }}>
+				{/* <div style={{ margin: '20px' }}>
 					<CustomButton name="Пользователь" handleClick={() => loginApi('user@user.ru', 'user')} />
-				</div>
+				</div> */}
 
 				<div style={{ margin: '20px' }}>
 					<CustomButton name="Обходчик" handleClick={() => loginApi('employee@employee.ru', 'employee')} />

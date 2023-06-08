@@ -16,44 +16,23 @@ const CameraPage = observer(() => {
 	const { object, frame, section, apartament } = useParams();
 	const navigate = useNavigate();
 	const [isOpenModal, setOpenModal] = useState(true);
-	const [dragEnter, setDragEnter] = useState(false);
 	const [videoFile, setVideoFile] = useState({});
 	const [isLoad, setLoad] = useState(false);
+	const [video, setVideo] = useState('');
 
 	const pathLast = `/employee/${object}/${frame}/${section}`;
-
-	//Получаем перенесенные в область файлы
-	const dropHandler = (event) => {
-		event.preventDefault();
-		event.stopPropagation();
-		const newFiles = event.target.files;
-		setVideoFile(newFiles[0]);
-		//Для каждого из файла вызовем функцию загрузки
-		setDragEnter(false);
-	};
 
 	const fileUploadHandler = (event) => {
 		event.preventDefault();
 		event.stopPropagation();
 		//Получаем все файлы из инпута
 		const newFiles = event.target.files;
+		console.log(newFiles);
 		setVideoFile(newFiles[0]);
-	};
-
-	const dragEnterHandler = (event) => {
-		event.preventDefault();
-		event.stopPropagation();
-		setDragEnter(true);
 	};
 
 	const closeModalInstructions = () => {
 		setOpenModal(false);
-	};
-
-	const dragLeaveHandler = (event) => {
-		event.preventDefault();
-		event.stopPropagation();
-		setDragEnter(false);
 	};
 
 	const sendVideo = () => {
@@ -61,6 +40,7 @@ const CameraPage = observer(() => {
 
 		apiPostFile(linkCreateVideo, videoFile, parseInt(apartament)).then(({ data, error }) => {
 			setLoad(false);
+			setVideo(data.video);
 
 			console.log(data);
 			console.log(error);
@@ -74,15 +54,9 @@ const CameraPage = observer(() => {
 				Квартира № {numberFlat}
 			</div>
 
-			Загрузка данных о квартире
-			
-			{!dragEnter ? (
-				<div
-					className={styles.disk}
-					onDragEnter={dragEnterHandler}
-					onDragLeave={dragLeaveHandler}
-					onDragOver={dragEnterHandler}
-				>
+			<div>
+				Загрузка данных о квартире
+				<div className={styles.disk}>
 					<div className={styles.disk_btns}>
 						<div className="disk_upload">
 							<label htmlFor="disk_upload-input" className={styles.diskUpload}>
@@ -98,24 +72,13 @@ const CameraPage = observer(() => {
 						</div>
 					</div>
 				</div>
-			) : (
-				<div
-					className={styles.dropArea}
-					onDrop={dropHandler}
-					onDragEnter={dragEnterHandler}
-					onDragLeave={dragLeaveHandler}
-					onDragOver={dragEnterHandler}
-				>
-					Перетащите файлы сюда
-				</div>
-			)}
-			<CustomButton name={'Отправить видео'} handleClick={sendVideo} />
-			{isLoad && <div>Загрузка файлов на сервер, подождите...</div>}
-			<ViewModal
-				title="Следуйте инструкцям по обходу квартир"
-				isModal={isOpenModal}
-				closeModal={closeModalInstructions}
-			>
+				<CustomButton name={'Отправить видео'} handleClick={sendVideo} />
+				{isLoad && <div>Загрузка файлов на сервер, подождите...</div>}
+			</div>
+
+			{video && <video className={styles.backVideo} src={video} controls={true} />}
+
+			<ViewModal title="Следуйте инструкции" isModal={isOpenModal} closeModal={closeModalInstructions}>
 				<Instruction closeModal={closeModalInstructions} />
 			</ViewModal>
 		</div>
