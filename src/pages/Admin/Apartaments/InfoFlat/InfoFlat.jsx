@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './InfoFlat.module.scss';
 import { Box } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
@@ -14,6 +14,8 @@ const InfoFlat = observer(() => {
 	const { linkGetRounds } = linksStore;
 	const { numberFlat } = store;
 
+	const [rounds, setRounds] = useState([]);
+
 	useEffect(() => {
 		getRounds(`${linkGetRounds}${flat}/getchecks/`);
 	}, []);
@@ -21,6 +23,7 @@ const InfoFlat = observer(() => {
 	const getRounds = (url = '') => {
 		apiGetProjects(url).then(({ data, error }) => {
 			console.log(data);
+			setRounds(data);
 			// data.map(({ id, flat, date, analysis }) => {
 			// 	setDataRoom({ id, number: flat, date, working: analysis.Ready_precentage, status: 'Готово' });
 
@@ -54,6 +57,13 @@ const InfoFlat = observer(() => {
 			<div>Информация по последнему обходу</div>
 
 			<div>Обходы</div>
+
+			{rounds.map((item) => (
+				<>
+					<div>Номер обхода: {item.id}</div>
+					<div>Дата обхода: {item.date}</div>
+				</>
+			))}
 		</Box>
 	);
 });

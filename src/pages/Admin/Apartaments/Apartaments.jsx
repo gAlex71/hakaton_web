@@ -29,10 +29,10 @@ const DashBoard = observer(() => {
 							acc.push({
 								id: acc.length + 1,
 								floor,
-								apartaments: [{ id, number, Ready_precentage, checks }],
+								apartaments: [{ id, number, Ready_precentage, checks, isSelected: false }],
 							});
 						} else {
-							floorObj.apartaments.push({ id, number, Ready_precentage, checks });
+							floorObj.apartaments.push({ id, number, Ready_precentage, checks, isSelected: false });
 						}
 						return acc;
 					}, [])
@@ -48,7 +48,33 @@ const DashBoard = observer(() => {
 		navigate(`/admin/${object}/${frame}/${section}/${id}`);
 	};
 
-	console.log(apartments);
+	const onMouseEnter = (select) => {
+		const flat = apartments.reduce((result, { apartaments }) => {
+			if (!result) {
+			  const found = apartaments.find((a) => a.id === select);
+			  if (found) {
+				return found;
+			  }
+			}
+			return result;
+		  }, null);
+		
+		  flat.isSelected = true;
+	};
+
+	const onMouseLeave = (select) => {
+		const flat = apartments.reduce((result, { apartaments }) => {
+			if (!result) {
+			  const found = apartaments.find((a) => a.id === select);
+			  if (found) {
+				return found;
+			  }
+			}
+			return result;
+		  }, null);
+		
+		  flat.isSelected = false;
+	};
 
 	return (
 		<Box>
@@ -66,20 +92,24 @@ const DashBoard = observer(() => {
 						return (
 							<div className={styles.floor} key={`${id}-${floor}`}>
 								{floor}
-								{apartaments.map(({ id, number, Ready_precentage }) => {
+								{apartaments.map(({ id, number, Ready_precentage, isSelected }) => {
 									const t = Math.min(Math.max(Ready_precentage, 0), 100);
 									const r = Math.round(255 * Math.min((100 - t) / 50, 1));
 									const g = Math.round(255 * Math.min(t / 50, 1));
 									const background = `rgba(${r}, ${g}, 0, 0.3)`;
 
+									const content = isSelected ? `${Ready_precentage}%` : number;
+
 									return (
 										<div
+											key={`${id}-${number}`}
 											style={{ background }}
 											className={styles.apartament}
-											key={`${id}-${number}`}
+											onMouseEnter={() => onMouseEnter(id)}
+											onMouseLeave={() => onMouseLeave(id)}
 											onClick={() => handleTableItem(id, number)}
 										>
-											{number}
+											{content}
 										</div>
 									);
 								})}

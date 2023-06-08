@@ -8,9 +8,11 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { observer } from 'mobx-react-lite';
 import { apiPostFile } from '../../../api/employeeApi/employeeApi';
 import linksStore from '../../../store/linksStore';
+import store from '../../../store/store';
 
 const CameraPage = observer(() => {
-	const {linkCreateVideo} = linksStore;
+	const { linkCreateVideo } = linksStore;
+	const { numberFlat } = store;
 	const { object, frame, section, apartament } = useParams();
 	const navigate = useNavigate();
 	const [isOpenModal, setOpenModal] = useState(true);
@@ -21,59 +23,66 @@ const CameraPage = observer(() => {
 	const pathLast = `/employee/${object}/${frame}/${section}`;
 
 	//Получаем перенесенные в область файлы
-    const dropHandler = (event) => {
-        event.preventDefault()
-        event.stopPropagation()
-        const newFiles = event.target.files
+	const dropHandler = (event) => {
+		event.preventDefault();
+		event.stopPropagation();
+		const newFiles = event.target.files;
 		setVideoFile(newFiles[0]);
-        //Для каждого из файла вызовем функцию загрузки
-        setDragEnter(false)
-    }
+		//Для каждого из файла вызовем функцию загрузки
+		setDragEnter(false);
+	};
 
 	const fileUploadHandler = (event) => {
-		event.preventDefault()
-        event.stopPropagation()
+		event.preventDefault();
+		event.stopPropagation();
 		//Получаем все файлы из инпута
-		const newFiles = event.target.files
+		const newFiles = event.target.files;
 		setVideoFile(newFiles[0]);
 	};
 
 	const dragEnterHandler = (event) => {
-        event.preventDefault()
-        event.stopPropagation()
-        setDragEnter(true)
-    }
+		event.preventDefault();
+		event.stopPropagation();
+		setDragEnter(true);
+	};
 
 	const closeModalInstructions = () => {
 		setOpenModal(false);
 	};
 
 	const dragLeaveHandler = (event) => {
-        event.preventDefault()
-        event.stopPropagation()
-        setDragEnter(false)
-    }
+		event.preventDefault();
+		event.stopPropagation();
+		setDragEnter(false);
+	};
 
 	const sendVideo = () => {
 		setLoad(true);
 
-		apiPostFile(linkCreateVideo, videoFile, parseInt(apartament)).then(({data, error}) => {
+		apiPostFile(linkCreateVideo, videoFile, parseInt(apartament)).then(({ data, error }) => {
 			setLoad(false);
 
 			console.log(data);
 			console.log(error);
-		})
+		});
 	};
 
 	return (
 		<div className={styles.container}>
 			<div className={styles.title}>
 				<ArrowBackIosNewIcon sx={{ color: '#007bfb', cursor: 'pointer' }} onClick={() => navigate(pathLast)} />
-				Загрузка данных о квартире
+				Квартира № {numberFlat}
 			</div>
 
+			Загрузка данных о квартире
+			
 			{!dragEnter ? (
-				<div className={styles.disk} onDragEnter={dragEnterHandler} onDragLeave={dragLeaveHandler} onDragOver={dragEnterHandler}>
+				<div
+					className={styles.disk}
+					onDragEnter={dragEnterHandler}
+					onDragLeave={dragLeaveHandler}
+					onDragOver={dragEnterHandler}
+				>
 					<div className={styles.disk_btns}>
 						<div className="disk_upload">
 							<label htmlFor="disk_upload-input" className={styles.diskUpload}>
@@ -100,12 +109,8 @@ const CameraPage = observer(() => {
 					Перетащите файлы сюда
 				</div>
 			)}
-
-
-			<CustomButton name={'Отправить видео'} handleClick={sendVideo}/>
-
+			<CustomButton name={'Отправить видео'} handleClick={sendVideo} />
 			{isLoad && <div>Загрузка файлов на сервер, подождите...</div>}
-			
 			<ViewModal
 				title="Следуйте инструкцям по обходу квартир"
 				isModal={isOpenModal}
