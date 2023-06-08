@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx';
+import { makePersistable } from 'mobx-persist-store';
 
 const getIsAuthorize = () => {
 	const authData = localStorage.getItem('role');
@@ -69,6 +70,12 @@ class store {
 		makeAutoObservable(this);
 
 		this.authUser = getIsAuthorize();
+
+		makePersistable(this, {
+			name: 'selectFlat',
+			properties: ['numberFlat'],
+			storage: window.localStorage,
+		});
 	}
 
 	setApartments = (apartments) => {

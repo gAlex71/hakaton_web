@@ -3,6 +3,7 @@ import store from '../../store/store';
 import { useState } from 'react';
 import CustomButton from '../CustomButton/CustomButton';
 import { observer } from 'mobx-react-lite';
+import { Box } from '@mui/material';
 
 const AllObjects = observer(({ title, openCreateModal = () => {}, handleSelectObject = () => {} }) => {
 	const { allObjects, authUser } = store;
@@ -10,12 +11,9 @@ const AllObjects = observer(({ title, openCreateModal = () => {}, handleSelectOb
 
 	const searchObject = (object) => object.name.toLowerCase().includes(search.toLowerCase());
 
-
 	return (
 		<div className={styles.container}>
 			<div className={styles.title}>
-				{authUser === 'admin' && <CustomButton name="+ Добавить объект" handleClick={openCreateModal} />}
-
 				{title}
 
 				<input
@@ -26,7 +24,9 @@ const AllObjects = observer(({ title, openCreateModal = () => {}, handleSelectOb
 				/>
 			</div>
 
-			<div className={styles.cards}>
+			{authUser === 'admin' && <CustomButton name="+ Добавить объект" handleClick={openCreateModal} />}
+
+			<Box>
 				{allObjects.filter(searchObject).map(({ id, name, photo }) => {
 					return (
 						<div key={id} className={styles.card} onClick={() => handleSelectObject(id)}>
@@ -36,7 +36,7 @@ const AllObjects = observer(({ title, openCreateModal = () => {}, handleSelectOb
 						</div>
 					);
 				})}
-			</div>
+			</Box>
 		</div>
 	);
 });
