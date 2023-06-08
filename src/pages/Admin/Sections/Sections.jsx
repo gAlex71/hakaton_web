@@ -7,6 +7,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Box } from '@mui/material';
 import styles from './Sections.module.scss';
+import photo from '../../../assets/section.jpg';
 
 const Sections = observer(() => {
 	const { linkGetSections } = linksStore;
@@ -46,21 +47,20 @@ const Sections = observer(() => {
 				Выберите секцию
 			</div>
 
-			<div className={styles.frames}>
+			<Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
 				{sections.map(({ id, name, floors, flats, frame }) => {
 					return (
-						<div
-							key={id}
-							className={styles.frame}
-							onClick={() => navigate(`/admin/${object}/${frame}/${id}`)}
-						>
-							<div>Секция {name}</div>
-							<div>Этажей: {floors}</div>
-							<div>Квартир на этаже: {flats}</div>
+						<div key={id} className={styles.frame} onClick={() => navigate(`/admin/${object}/${frame}/${id}`)}>
+							<img className={styles.photo} src={photo} />
+							<div className={styles.titleSection}>
+								<div>Секция {name}</div>
+								<div>Кол-во этажей: {floors}</div>
+								<div>Квартир на этаже: {flats}</div>
+							</div>
 						</div>
 					);
 				})}
-			</div>
+			</Box>
 		</Box>
 	);
 });
