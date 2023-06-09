@@ -31,11 +31,11 @@ const Login = observer(() => {
 				</div> */}
 
 				<div style={{ margin: '20px' }}>
-					<CustomButton name="Обходчик" handleClick={() => loginApi('employee@employee.ru', 'employee')} />
+					<CustomButton name="Обходчик" width={'140px'} handleClick={() => loginApi('employee@employee.ru', 'employee')} />
 				</div>
 
 				<div style={{ margin: '20px' }}>
-					<CustomButton name="Администратор" handleClick={() => loginApi('admin@admin.ru', 'admin')} />
+					<CustomButton name="Администратор" width={'140px'} handleClick={() => loginApi('admin@admin.ru', 'admin')} />
 				</div>
 			</Box>
 		</Box>

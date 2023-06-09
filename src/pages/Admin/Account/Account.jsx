@@ -32,7 +32,7 @@ const Account = () => {
 			 <div>
 				{user.first_name} {user.last_name}
 				{user.email}
-				<CustomButton name={'Выйти'} handleClick={signOut} />
+				<CustomButton name={'Выйти'} width={'80px'} handleClick={signOut} />
 			</div>
 			
 		</div>

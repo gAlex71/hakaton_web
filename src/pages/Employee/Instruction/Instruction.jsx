@@ -13,7 +13,7 @@ const Instruction = ({closeModal}) => {
     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
         <img className={styles.visible} src={instruction} alt=""/>
 
-        <CustomButton name='Начать обход квартиры' handleClick={handleStart}/>
+        <CustomButton name='Начать обход квартиры' width={'185px'} handleClick={handleStart}/>
     </div>
   )
 }

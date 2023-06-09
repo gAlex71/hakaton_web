@@ -72,7 +72,7 @@ const CameraPage = observer(() => {
 						</div>
 					</div>
 				</div>
-				<CustomButton name={'Отправить видео'} handleClick={sendVideo} />
+				<CustomButton name={'Отправить видео'} width={'150px'} handleClick={sendVideo} />
 				{isLoad && <div>Загрузка файлов на сервер, подождите...</div>}
 			</div>
 

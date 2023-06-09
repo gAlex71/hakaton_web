@@ -91,7 +91,7 @@ const DashBoard = observer(() => {
 					{apartments.map(({ id, floor, apartaments }) => {
 						return (
 							<div className={styles.floor} key={`${id}-${floor}`}>
-								{floor}
+								<div style={{width: '40px', height: '40px'}}>{floor}</div>
 								{apartaments.map(({ id, number, Ready_precentage, isSelected }) => {
 									const t = Math.min(Math.max(Ready_precentage, 0), 100);
 									const r = Math.round(255 * Math.min((100 - t) / 50, 1));

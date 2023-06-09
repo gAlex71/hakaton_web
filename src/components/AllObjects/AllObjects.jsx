@@ -14,7 +14,7 @@ const AllObjects = observer(({ title, openCreateModal = () => {}, handleSelectOb
 	return (
 		<div className={styles.container}>
 			<div className={styles.title}>
-				{title}
+				<div style={{marginBottom: '10px'}}>{title}</div>
 
 				<input
 					className={styles.inputItem}
@@ -24,7 +24,6 @@ const AllObjects = observer(({ title, openCreateModal = () => {}, handleSelectOb
 				/>
 			</div>
 
-			{authUser === 'admin' && <CustomButton name="+ Добавить объект" handleClick={openCreateModal} />}
 
 			<Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
 				{allObjects.filter(searchObject).map(({ id, name, photo }) => {
@@ -37,6 +36,8 @@ const AllObjects = observer(({ title, openCreateModal = () => {}, handleSelectOb
 					);
 				})}
 			</Box>
+			
+			{authUser === 'admin' && <CustomButton name="+ Добавить объект" width={'160px'} handleClick={openCreateModal} />}
 		</div>
 	);
 });

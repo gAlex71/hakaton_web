@@ -65,7 +65,6 @@ const ListFrames = observer(() => {
 				Выберите корпус
 			</div>
 
-			<CustomButton name="+ Добавить корпус" handleClick={openCreateModal} />
 
 			<Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
 				{frames.map(({ id, name, floors, photo }) => {
@@ -81,6 +80,8 @@ const ListFrames = observer(() => {
 				})}
 			</Box>
 
+			<CustomButton name="+ Добавить корпус" width={'155px'} handleClick={openCreateModal} />
+			
 			<ViewModal title="Новый корпус" isModal={isOpenModal} closeModal={closeCreateModal}>
 				<CreateFrame closeModal={closeCreateModal} />
 			</ViewModal>
