@@ -26,6 +26,9 @@ const InfoFlat = observer(() => {
 	const [infoRound, setInfoRound] = useState({});
 	const [dataPie, setDataPie] = useState([]);
 	const [isOpenModal, setOpenModal] = useState(false);
+	const [selectImage, setSelectImage] = useState('');
+	const [selectVideo, setSelectVideo] = useState('');
+	const [squire, setSquire] = useState('');
 
 	useEffect(() => {
 		getRounds(`${linkGetRounds}${flat}/getchecks/`);
@@ -47,6 +50,10 @@ const InfoFlat = observer(() => {
 		);
 	}, [infoRound]);
 
+	useEffect(() => {
+		console.log(infoRound);
+	}, [infoRound]);
+
 	const getRounds = (url = '') => {
 		apiGetProjects(url).then(({ data, error }) => {
 			setRounds(data);
@@ -57,11 +64,13 @@ const InfoFlat = observer(() => {
 
 	const getInfoRound = ({ row }) => {
 		setInfoRound(row.analysis);
+
 		if(!Object.keys(row.analysis).length) return;
-		// analys_image
-		// analys_square
-		//video
+
 		console.log(row);
+		setSelectImage(row.analys_image);
+		setSelectVideo(row.video);
+		setSquire(row.analys_square);
 		setOpenModal(true);
 	};
 
@@ -83,11 +92,11 @@ const InfoFlat = observer(() => {
 				<div className={styles.infoBlock}>
 					<div style={{fontSize: '20px'}}>Подробная информация о квартире</div>
 
-					<div style={{fontSize: '16px'}}>Проанализированная площадь: {infoRound.analys_square} м2</div>
+					<div style={{fontSize: '16px'}}>Проанализированная площадь: {squire} м2</div>
 
-					<img src={infoRound.analys_image}/>
+					<img style={{width: '300px'}} src={selectImage}/>
 
-					<video src={infoRound.video}/>
+					<video style={{width: '300px'}} src={selectVideo}/>
 				</div>
 			) : (
 				<div style={{fontSize: '20px', color: '#007bfb'}}>Информация отсутствует, выберете обход</div>
