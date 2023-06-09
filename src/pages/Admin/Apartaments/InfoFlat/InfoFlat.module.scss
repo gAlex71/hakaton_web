@@ -16,6 +16,10 @@
 }
 
 .infoBlock {
-	// border-radius: 10px;
-	// border: #007bfb;
+	display: flex;
+	flex-wrap: wrap;
+
+	margin: 10px 0;
+
+	color: #007bfb;
 }

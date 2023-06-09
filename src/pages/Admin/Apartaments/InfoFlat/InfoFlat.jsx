@@ -56,12 +56,12 @@ const InfoFlat = observer(() => {
 	};
 
 	const getInfoRound = ({ row }) => {
-		if(!Object.keys(row.analysis).length) {
-			alert('Данных не обнаружено');
-			return;
-		}
-		console.log(rounds);
 		setInfoRound(row.analysis);
+		if(!Object.keys(row.analysis).length) return;
+		// analys_image
+		// analys_square
+		//video
+		console.log(row);
 		setOpenModal(true);
 	};
 
@@ -78,6 +78,20 @@ const InfoFlat = observer(() => {
 				/>
 				Квартира № {numberFlat}
 			</div>
+
+			{!!Object.keys(infoRound).length ? (
+				<div className={styles.infoBlock}>
+					<div style={{fontSize: '20px'}}>Подробная информация о квартире</div>
+
+					<div style={{fontSize: '16px'}}>Проанализированная площадь: {infoRound.analys_square} м2</div>
+
+					<img src={infoRound.analys_image}/>
+
+					<video src={infoRound.video}/>
+				</div>
+			) : (
+				<div style={{fontSize: '20px', color: '#007bfb'}}>Информация отсутствует, выберете обход</div>
+			)}
 
 			<div style={{ maxWidth: '500px', marginTop: '40px' }}>
 				<div className={styles.tableTitle}>Выберите обход для подробной информации</div>
