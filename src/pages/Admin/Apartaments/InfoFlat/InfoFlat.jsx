@@ -9,11 +9,11 @@ import { observer } from 'mobx-react-lite';
 import store from '../../../../store/store';
 import ListCompleted from '../../../../components/ListCompleted/ListCompleted';
 import PieChart from '../../../../components/PieChart/PieChart';
-import ViewModal from '../../../../components/ViewModal/ViewModal';
 
 const columns = [
 	{ field: 'id', headerName: 'Номер обхода', flex: 1 },
 	{ field: 'date', headerName: 'Дата обхода', flex: 1 },
+	{ field: 'is_analysed', headerName: 'Готовность анализа', flex: 1 },
 ];
 
 const InfoFlat = observer(() => {
@@ -25,7 +25,6 @@ const InfoFlat = observer(() => {
 	const [rounds, setRounds] = useState([]);
 	const [infoRound, setInfoRound] = useState({});
 	const [dataPie, setDataPie] = useState([]);
-	const [isOpenModal, setOpenModal] = useState(false);
 	const [selectImage, setSelectImage] = useState('');
 	const [selectVideo, setSelectVideo] = useState('');
 	const [squire, setSquire] = useState('');
@@ -35,9 +34,10 @@ const InfoFlat = observer(() => {
 	}, []);
 
 	useEffect(() => {
-		if(!Object.keys(infoRound).length) return;
+		if (!Object.keys(infoRound).length) return;
 
-		setDataPie(infoRound.Detected_objects.map((item) => {
+		setDataPie(
+			infoRound.Detected_objects.map((item) => {
 				const { Frame_count, Name, Score } = item;
 
 				return {
@@ -65,17 +65,12 @@ const InfoFlat = observer(() => {
 	const getInfoRound = ({ row }) => {
 		setInfoRound(row.analysis);
 
-		if(!Object.keys(row.analysis).length) return;
+		if (!Object.keys(row.analysis).length) return;
 
 		console.log(row);
-		setSelectImage(row.analys_image);
-		setSelectVideo(row.video);
+		setSelectImage(row.analys_image_url);
+		setSelectVideo(row.analys_video_url);
 		setSquire(row.analys_square);
-		setOpenModal(true);
-	};
-
-	const closeCreateModal = () => {
-		setOpenModal(false);
 	};
 
 	return (
@@ -90,38 +85,41 @@ const InfoFlat = observer(() => {
 
 			{!!Object.keys(infoRound).length ? (
 				<div className={styles.infoBlock}>
-					<div style={{fontSize: '20px'}}>Подробная информация о квартире</div>
+					<div style={{ fontSize: '20px' }}>Подробная информация о квартире</div>
 
-					<div style={{fontSize: '16px'}}>Проанализированная площадь: {squire} м2</div>
+					<div style={{ fontSize: '16px' }}>Проанализированная площадь: {squire} м2</div>
 
-					<img style={{width: '300px'}} src={selectImage}/>
+					<div>
+						Общая готовность квартиры: {infoRound.Ready_precentage}%
+						<div>
+							<div>
+								Готовность потолка:
+								{infoRound.Ceiling_ready ? <span>&#x2714;</span> : <span>&#x2716;</span>}
+							</div>
+							<div>
+								Готовность дверей:
+								{infoRound.Door_ready ? <span>&#x2714;</span> : <span>&#x2716;</span>}
+							</div>
 
-					<video style={{width: '300px'}} src={selectVideo}/>
+							<Box height="300px" >
+								<PieChart data={dataPie} />
+							</Box>
+						</div>
+					</div>
+
+					<img style={{ margin: '10px 0', borderRadius: '10px' }} src={selectImage} />
+
+					<video className={styles.backVideo} src={selectVideo} controls />
 				</div>
 			) : (
-				<div style={{fontSize: '20px', color: '#007bfb'}}>Информация отсутствует, выберете обход</div>
+				<div style={{ fontSize: '20px', color: '#007bfb' }}>Информация отсутствует, выберете обход</div>
 			)}
 
-			<div style={{ maxWidth: '500px', marginTop: '40px' }}>
+			<div style={{ maxWidth: '500px', margin: '20px 0' }}>
 				<div className={styles.tableTitle}>Выберите обход для подробной информации</div>
 
 				<ListCompleted columns={columns} data={rounds} handleTableItem={getInfoRound} />
 			</div>
-
-			<ViewModal title={`Общая готовность квартиры: ${infoRound.Ready_precentage}%`} isModal={isOpenModal} closeModal={closeCreateModal}>
-				<div>
-					<div>Готовность потолка: 
-						{infoRound.Ceiling_ready ? <span>&#x2714;</span> : <span>&#x2716;</span>}
-					</div>
-					<div>Готовность дверей: 
-						{infoRound.Door_ready ? <span>&#x2714;</span> : <span>&#x2716;</span>}
-					</div>
-
-					<Box height="50vh" width="50vw">
-						<PieChart data={dataPie} />
-					</Box>
-				</div>
-			</ViewModal>
 		</Box>
 	);
 });
